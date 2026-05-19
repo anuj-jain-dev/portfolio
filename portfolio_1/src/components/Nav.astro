@@ -1,0 +1,62 @@
+---
+---
+<nav class="nav" id="main-nav">
+  <div class="nav-inner">
+    <button class="nav-logo" onclick="scrollTo('#hero')">
+      Anuj<span>.</span>
+    </button>
+    <div class="nav-links">
+      <button class="nav-link-item" onclick="scrollTo('#about')">About</button>
+      <button class="nav-link-item" onclick="scrollTo('#skills')">Skills</button>
+      <button class="nav-link-item" onclick="scrollTo('#projects')">Projects</button>
+      <button class="nav-link-item" onclick="scrollTo('#why-me')">Why Me</button>
+      <button class="btn btn-lime" onclick="scrollTo('#contact')" style="padding:10px 20px;font-size:13px">
+        Hire Me →
+      </button>
+    </div>
+    <!-- Hamburger -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu"
+      style="display:none;background:none;border:none;flex-direction:column;gap:5px;padding:4px;">
+      <span style="display:block;width:22px;height:1.5px;background:var(--text);border-radius:1px;"></span>
+      <span style="display:block;width:22px;height:1.5px;background:var(--text);border-radius:1px;"></span>
+      <span style="display:block;width:22px;height:1.5px;background:var(--text);border-radius:1px;"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu" style="display:none;">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  {[['About','#about'],['Skills','#skills'],['Projects','#projects'],['Why Me','#why-me'],['Contact','#contact']].map(([l,h]) => (
+    <button class="mobile-menu-link" data-href={h}>{l}</button>
+  ))}
+</div>
+
+<script>
+  // Scroll helper
+  function scrollTo(id: string) {
+    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+  (window as any).scrollTo = scrollTo;
+
+  // Nav scroll state
+  const nav = document.getElementById('main-nav')!;
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+  const mobileClose = document.getElementById('mobile-close')!;
+
+  hamburger.addEventListener('click', () => { mobileMenu.style.display = 'flex'; });
+  mobileClose.addEventListener('click', () => { mobileMenu.style.display = 'none'; });
+  mobileMenu.querySelectorAll('.mobile-menu-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const href = btn.getAttribute('data-href')!;
+      mobileMenu.style.display = 'none';
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>

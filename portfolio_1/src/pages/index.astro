@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import About from '../components/About.astro';
+import Skills from '../components/Skills.astro';
+import Projects from '../components/Projects.astro';
+import WhyMe from '../components/WhyMe.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+// Load all project markdown files, sorted by order field
+const projectFiles = await Astro.glob('../content/projects/*.md');
+const projects = projectFiles
+  .map(f => ({ data: f.frontmatter, slug: f.file.split('/').pop()?.replace('.md', '') ?? '' }))
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+---
+
+<Base>
+  <Nav />
+  <main>
+    <Hero />
+    <Marquee />
+    <About />
+    <Skills />
+    <Projects projects={projects} />
+    <WhyMe />
+    <Contact />
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  // ── Scroll-reveal for .reveal elements ──────────────────────────────────────
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).style.animation =
+            `fadeUp 0.75s cubic-bezier(0.16,1,0.3,1) ${(entry.target as HTMLElement).style.animationDelay || '0s'} both`;
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    (el as HTMLElement).style.opacity = '0';
+    observer.observe(el);
+  });
+</script>

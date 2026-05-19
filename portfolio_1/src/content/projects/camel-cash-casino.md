@@ -1,0 +1,23 @@
+---
+title: "Camel Cash Casino"
+subtitle: "Lead Developer · Cross-Platform Social Casino"
+status: "LIVE"
+platform: "iOS · Android · WebGL"
+studio: "Phonato Studios"
+year: "2020–2023"
+order: 2
+featured: true
+mediaType: "image"
+mediaSrc: ""
+cloudinaryVideo: ""
+youtubeId: ""
+storeLink: "https://www.camelcashgame.com"
+storeLinkLabel: "View Live →"
+githubLink: ""
+techChallenge: "Led design of a modular slot framework supporting divergent reel configurations, bonus mechanics, and win presentations — all server-delivered paytables, zero hardcoded game logic. Every mechanic is data-configured."
+businessOutcome: "Live across iOS, Android, and WebGL simultaneously. As Lead Developer, owned sprint planning, code reviews, and the cross-platform build pipeline. Framework adopted as the studio foundation for subsequent titles."
+codeSignals: "Observer pattern for win events. Command pattern for spin/stop sequences. Shared C# codebase with platform-specific shim layers. Unity Addressables for asset streaming on WebGL — keeping initial load under 3s."
+tags: ["Unity", "C#", "iOS", "Android", "WebGL", "Addressables", "Lead Dev", "Social Casino"]
+metrics: ["3 Platforms", "Lead Role", "Framework Reused Across Titles"]
+accent: "#F1A135"
+---

@@ -1,0 +1,218 @@
+---
+interface Project {
+  data: {
+    title: string;
+    subtitle: string;
+    status: string;
+    platform: string;
+    studio: string;
+    year: string;
+    order: number;
+    featured: boolean;
+    mediaType: string;
+    mediaSrc?: string;
+    cloudinaryVideo?: string;
+    youtubeId?: string;
+    storeLink?: string;
+    storeLinkLabel?: string;
+    githubLink?: string;
+    techChallenge: string;
+    businessOutcome: string;
+    codeSignals: string;
+    tags: string[];
+    metrics: string[];
+    accent: string;
+  };
+  slug: string;
+}
+interface Props { projects: Project[]; }
+const { projects } = Astro.props;
+
+const statusColor: Record<string, string> = {
+  LIVE: '#4ade80', CURRENT: '#60a5fa', SHIPPED: '#C8F135', WIP: '#f59e0b',
+};
+---
+
+<section id="projects" class="section-pad" style="background:var(--bg);">
+  <div class="container">
+
+    <!-- Section header -->
+    <div class="label reveal" style="margin-bottom:16px;">Projects</div>
+    <div class="reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:64px;">
+      <h2 style="font-family:var(--font-display);font-size:clamp(30px,5vw,58px);font-weight:400;color:var(--text);letter-spacing:-2px;line-height:1;margin:0;">
+        Shipped work,<br />
+        <span style="color:var(--lime);font-style:italic;">real products</span>
+      </h2>
+      <p style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);max-width:340px;line-height:1.7;margin:0;">
+        Every card is a case study — the technical challenge, the shipped outcome, and the code signals that matter to a senior reviewer.
+      </p>
+    </div>
+
+    <!-- Project cards -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      {projects.map((project, i) => {
+        const p = project.data;
+        const isEven = i % 2 === 0;
+        const sc = statusColor[p.status] ?? '#8a8480';
+
+        return (
+          <article class="project-card reveal" style={`animation-delay:${i * 0.08}s`}>
+
+            <!-- Accent bar -->
+            <div class="accent-bar" style={`background:${p.accent};`}></div>
+
+            <!-- Split layout: media | content -->
+            <div class="project-split" style="display:flex;min-height:420px;flex-wrap:wrap;">
+
+              <!-- ── MEDIA SIDE ── -->
+              <div style={`flex:0 0 48%;min-width:280px;order:${isEven ? 0 : 1};`}>
+                <div class="media-wrap" style="height:100%;min-height:320px;">
+
+                  {p.mediaType === 'youtube' && p.youtubeId ? (
+                    <!-- YouTube embed -->
+                    <iframe
+                      src={`https://www.youtube.com/embed/${p.youtubeId}?autoplay=0&rel=0&modestbranding=1`}
+                      style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                      loading="lazy"
+                      title={p.title}
+                    />
+                  ) : p.mediaType === 'video' && p.cloudinaryVideo ? (
+                    <!-- Cloudinary / self-hosted MP4 -->
+                    <video
+                      src={p.cloudinaryVideo}
+                      autoplay muted loop playsinline
+                      style="width:100%;height:100%;object-fit:cover;"
+                      poster=""
+                    />
+                  ) : p.mediaSrc ? (
+                    <!-- GIF or image -->
+                    <img
+                      src={p.mediaSrc}
+                      alt={`${p.title} gameplay`}
+                      style="width:100%;height:100%;object-fit:cover;"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <!-- Placeholder (remove once you add real media) -->
+                    <div class="media-placeholder" style="height:100%;">
+                      <div class="media-placeholder-grid"></div>
+                      <div style="font-size:64px;position:relative;z-index:1;">🎮</div>
+                      <div style="position:relative;z-index:1;text-align:center;">
+                        <p style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin:0 0 6px;">
+                          Add your GIF or MP4
+                        </p>
+                        <p style="font-family:var(--font-body);font-size:11px;color:var(--text-muted);opacity:0.5;margin:0;">
+                          Upload via /admin → Projects → {p.title}
+                        </p>
+                      </div>
+                      <!-- Accent corner -->
+                      <div style={`position:absolute;bottom:0;left:0;right:0;height:3px;background:${p.accent};opacity:0.5;`}></div>
+                    </div>
+                  )}
+
+                  <!-- Featured badge -->
+                  {p.featured && (
+                    <div style="position:absolute;top:16px;left:16px;z-index:2;">
+                      <span style="background:var(--lime);color:#0c0c0d;font-family:var(--font-body);font-size:10px;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border-radius:4px;">
+                        Featured
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <!-- ── CONTENT SIDE ── -->
+              <div style={`flex:1 1 300px;padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;gap:20px;order:${isEven ? 1 : 0};`}>
+
+                <!-- Status + meta -->
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <span style={`font-family:var(--font-body);font-size:11px;font-weight:800;color:${sc};letter-spacing:0.14em;display:flex;align-items:center;gap:6px;`}>
+                    <span style={`width:6px;height:6px;border-radius:50%;background:${sc};display:inline-block;${p.status === 'LIVE' || p.status === 'CURRENT' ? 'animation:pulse-dot 2s infinite;' : ''}`}></span>
+                    {p.status}
+                  </span>
+                  <span class="tag-muted">{p.platform}</span>
+                  <span class="tag-muted">{p.studio}</span>
+                  <span style="font-family:var(--font-body);font-size:11px;color:var(--text-muted);margin-left:auto;">{p.year}</span>
+                </div>
+
+                <!-- Title -->
+                <div>
+                  <h3 style="font-family:var(--font-display);font-size:clamp(22px,3vw,36px);font-weight:400;color:var(--text);letter-spacing:-0.5px;margin:0 0 4px;line-height:1.1;">
+                    {p.title}
+                  </h3>
+                  <p style="font-family:var(--font-body);font-size:13px;color:var(--text-muted);margin:0;font-weight:600;">
+                    {p.subtitle}
+                  </p>
+                </div>
+
+                <!-- Metrics strip -->
+                <div style="display:flex;gap:24px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+                  {p.metrics.map(m => {
+                    const parts = m.split(' ');
+                    const val = parts[0];
+                    const lbl = parts.slice(1).join(' ');
+                    return (
+                      <div>
+                        <div style={`font-family:var(--font-display);font-size:22px;color:${p.accent};font-weight:400;letter-spacing:-0.5px;line-height:1;`}>{val}</div>
+                        <div style="font-family:var(--font-body);font-size:10px;color:var(--text-muted);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;">{lbl}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <!-- Case study blocks -->
+                <div style="display:flex;flex-direction:column;gap:14px;flex:1;">
+                  {[
+                    ['⚙ Tech Challenge', p.techChallenge],
+                    ['📈 Outcome', p.businessOutcome],
+                    ['🔍 Code Quality', p.codeSignals],
+                  ].map(([heading, body]) => (
+                    <div>
+                      <div style={`font-family:var(--font-body);font-size:10px;font-weight:900;color:${p.accent};letter-spacing:0.16em;text-transform:uppercase;margin-bottom:5px;`}>{heading}</div>
+                      <p style="font-family:var(--font-body);font-size:13px;color:var(--text-muted);line-height:1.7;margin:0;">{body}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <!-- Tags -->
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  {p.tags.map(t => (
+                    <span class="tag-lime">{t}</span>
+                  ))}
+                </div>
+
+                <!-- Links -->
+                <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:4px;">
+                  {p.storeLink && (
+                    <a href={p.storeLink} target="_blank" rel="noopener noreferrer"
+                      class="btn btn-lime" style="font-size:13px;padding:10px 20px;">
+                      {p.storeLinkLabel || 'View Live →'}
+                    </a>
+                  )}
+                  {p.githubLink && (
+                    <a href={p.githubLink} target="_blank" rel="noopener noreferrer"
+                      class="btn btn-outline" style="font-size:13px;padding:9px 18px;">
+                      GitHub ↗
+                    </a>
+                  )}
+                </div>
+
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- Add more projects CTA -->
+    <div class="reveal" style="margin-top:20px;border:2px dashed rgba(200,241,53,0.15);border-radius:var(--radius-lg);padding:40px;text-align:center;">
+      <p style="font-family:var(--font-display);font-size:22px;color:var(--text-muted);font-style:italic;margin:0 0 8px;">More projects on the way</p>
+      <p style="font-family:var(--font-body);font-size:13px;color:var(--text-muted);opacity:0.5;margin:0;">
+        Add new projects anytime at <strong style="color:var(--lime)">yoursite.com/admin</strong> — no code required
+      </p>
+    </div>
+
+  </div>
+</section>

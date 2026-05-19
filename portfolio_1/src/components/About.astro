@@ -1,0 +1,67 @@
+---
+---
+<section id="about" class="section-pad" style="background:var(--bg);">
+  <div class="container">
+
+    <div class="label reveal" style="margin-bottom:48px;">About</div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(40px,6vw,80px);align-items:start;">
+
+      <!-- Left: copy -->
+      <div class="reveal">
+        <h2 style="font-family:var(--font-display);font-size:clamp(32px,4vw,54px);font-weight:400;color:var(--text);line-height:1.08;letter-spacing:-1.5px;margin:0 0 32px;">
+          Game systems<br />
+          <span style="color:var(--lime);font-style:italic;">built to last.</span>
+        </h2>
+        <p style="font-family:var(--font-body);font-size:15px;color:var(--text-muted);line-height:1.8;margin:0 0 18px;">
+          Senior Unity Developer based in India with 13+ years building scalable, high-performance game systems for studios across Europe and Asia. My work lives at the intersection of clean architecture and production reality.
+        </p>
+        <p style="font-family:var(--font-body);font-size:15px;color:var(--text-muted);line-height:1.8;margin:0 0 18px;">
+          Currently at <strong style="color:var(--text)">UROC Studios</strong> (Isle of Man), building the core slot framework powering multiple live titles — fully remote. Previously led development at <strong style="color:var(--text)">Phonato Studios</strong> (Dubai).
+        </p>
+        <p style="font-family:var(--font-body);font-size:15px;color:var(--text-muted);line-height:1.8;margin:0 0 36px;">
+          I also independently designed, built, and shipped a live game on Google Play — handling architecture, monetisation, release pipeline, and live ops. Solo.
+        </p>
+
+        <!-- Pull quote -->
+        <div style="border-left:2px solid var(--lime);padding-left:20px;margin-bottom:36px;">
+          <p style="font-family:var(--font-display);font-size:19px;color:var(--text);font-style:italic;line-height:1.45;margin:0;">
+            "I don't just write code — I build the systems that let teams move faster."
+          </p>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="mailto:anuj132000@gmail.com" class="btn btn-lime" style="font-size:13px;padding:11px 22px;">
+            ✉ Get in touch
+          </a>
+          <a href="https://www.linkedin.com/in/anuj-jain-gamesdev" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:10px 20px;">
+            LinkedIn ↗
+          </a>
+          <a href="https://github.com/anuj-jain-13" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:10px 20px;">
+            GitHub ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: info table -->
+      <div class="reveal" style="animation-delay:0.15s;">
+        {[
+          ['Current Role', 'Senior Unity Dev @ UROC Studios'],
+          ['Location', 'India · Remote-first'],
+          ['Available for', 'Full-time · Contract · Freelance'],
+          ['Experience', '13+ years (2011–present)'],
+          ['Specialisation', 'Casino · Mobile · WebGL'],
+          ['Language', 'C# (Unity)'],
+          ['Platforms', 'iOS · Android · WebGL'],
+          ['Tools', 'Git · Jira · Trello · Spine'],
+        ].map(([k, v]) => (
+          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--border);gap:16px;flex-wrap:wrap;">
+            <span style="font-family:var(--font-body);font-size:11px;font-weight:800;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;flex-shrink:0;">{k}</span>
+            <span style="font-family:var(--font-body);font-size:14px;color:var(--text-mid);text-align:right;">{v}</span>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>

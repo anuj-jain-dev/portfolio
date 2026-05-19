@@ -1,0 +1,53 @@
+---
+const items = [
+  {
+    num: '01', icon: '⚙️', title: 'I ship frameworks, not features',
+    body: "The slot framework I built at Phonato was adopted across multiple subsequent titles. At UROC, I'm doing it again. Recruiters call this 'reusability' — I call it not wanting to fix the same bug twice.",
+  },
+  {
+    num: '02', icon: '🌍', title: "Remote isn't a perk — it's my default",
+    body: "Years working with studios in Isle of Man and Dubai from India. Async-first, over-communicating on decisions, and delivering without someone looking over my shoulder. I make remote teams feel local.",
+  },
+  {
+    num: '03', icon: '📦', title: 'I own the full lifecycle',
+    body: "PuzzleMania went from idea to live Play Store listing with one developer: me. Architecture, IAP, ads, release pipeline, staged rollouts. I understand what happens downstream from my code because I've lived it.",
+  },
+  {
+    num: '04', icon: '📐', title: '13 years means knowing what not to do',
+    body: "I've written the spaghetti. I've inherited it. I've spent years learning the patterns that make future-you and your team actually grateful. Seniority isn't just speed — it's knowing which shortcuts bite you later.",
+  },
+];
+---
+<section id="why-me" class="section-pad" style="background:var(--bg2);">
+  <div class="container">
+
+    <div class="label reveal" style="margin-bottom:16px;">Why Hire Me</div>
+    <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(28px,4vw,52px);font-weight:400;color:var(--text);letter-spacing:-1.5px;margin:12px 0 56px;line-height:1.05;">
+      What a tech lead<br />actually wants to know
+    </h2>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+      {items.map((w, i) => (
+        <div class="why-card reveal" style={`animation-delay:${i * 0.08}s`}>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+            <span style="font-family:var(--font-display);font-size:13px;color:var(--lime);">{w.num}</span>
+            <span style="font-size:20px;">{w.icon}</span>
+          </div>
+          <h3 style="font-family:var(--font-display);font-size:20px;color:var(--text);font-weight:400;margin:0 0 12px;line-height:1.25;">{w.title}</h3>
+          <p style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);line-height:1.75;margin:0;">{w.body}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Pull quote CTA -->
+    <div class="reveal" style="margin-top:48px;padding:clamp(28px,4vw,44px);background:rgba(200,241,53,0.04);border:1px solid rgba(200,241,53,0.15);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:28px;">
+      <p style="font-family:var(--font-display);font-size:clamp(18px,2.5vw,28px);color:var(--text);font-style:italic;font-weight:400;margin:0;line-height:1.4;max-width:580px;">
+        "I write code that other developers thank me for six months later."
+      </p>
+      <button class="btn btn-lime" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">
+        Let's talk →
+      </button>
+    </div>
+
+  </div>
+</section>

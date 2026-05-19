@@ -1,0 +1,30 @@
+---
+const skills = [
+  { group: 'Core Engine', items: ['Unity (C#)', 'Gameplay Systems', 'OOP & Design Patterns', 'Event Architecture', 'ScriptableObjects'] },
+  { group: 'Game Types', items: ['Slot Frameworks', 'Social Casino', 'Casual / Puzzle', 'Multiplayer', 'Win Presentation Systems'] },
+  { group: 'Performance', items: ['Object Pooling', 'Spine Optimisation', 'Draw Call Batching', 'Memory Management', 'WebGL Build Tuning'] },
+  { group: 'Integrations', items: ['Spine Animation', 'Unity Timeline', 'Unity Ads / LevelPlay', 'In-App Purchases', 'Addressables', 'SmartFoxServer'] },
+  { group: 'Platforms & Tools', items: ['iOS', 'Android', 'WebGL', 'Git', 'Jira', 'Google Play Console', 'Apple App Store'] },
+];
+---
+<section id="skills" class="section-pad" style="background:var(--bg2);">
+  <div class="container">
+
+    <div class="label reveal" style="margin-bottom:16px;">Skills & Stack</div>
+    <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(28px,4vw,50px);font-weight:400;color:var(--text);letter-spacing:-1.5px;margin:12px 0 52px;">
+      What I bring to your codebase
+    </h2>
+
+    <div>
+      {skills.map((s, i) => (
+        <div class="skill-row reveal" style={`animation-delay:${i * 0.07}s`}>
+          <div class="skill-row-label">{s.group}</div>
+          <div class="skill-pills">
+            {s.items.map(item => <span class="skill-pill">{item}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

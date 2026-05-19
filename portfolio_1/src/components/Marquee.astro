@@ -1,0 +1,16 @@
+---
+const items = ['Unity','C#','ScriptableObjects','Spine Animation','Unity Timeline',
+  'Object Pooling','SmartFoxServer','WebGL','iOS','Android','Addressables',
+  'IAP','Unity Ads','Casino Systems','Slot Frameworks','Puzzle Games','Remote-First'];
+const doubled = [...items, ...items];
+---
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    {doubled.map((item, i) => (
+      <span class="marquee-item">
+        {item}
+        {i < doubled.length - 1 && <span class="marquee-dot">✦</span>}
+      </span>
+    ))}
+  </div>
+</div>
