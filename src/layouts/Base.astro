@@ -31,8 +31,22 @@ const {
   <body class="grain">
     <slot />
     <script>
-      // Redirect to /admin after Netlify Identity login
-      if (window.netlifyIdentity) {
+      // Handle Netlify Identity tokens that land on the main site
+      // (invite, confirmation, recovery links all redirect here first)
+      const hash = window.location.hash;
+      const hasToken =
+        hash.includes("invite_token=") ||
+        hash.includes("confirmation_token=") ||
+        hash.includes("recovery_token=") ||
+        hash.includes("access_token=");
+
+      if (hasToken) {
+        // Let the identity widget load and process the token,
+        // then redirect to /admin so Decap CMS can finish the flow.
+        window.netlifyIdentity?.on("init", () => {
+          window.location.href = "/admin/" + hash;
+        });
+      } else if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {
