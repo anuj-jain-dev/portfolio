@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio CMS · Anuj Jain</title>
-    <!--
-      IMPORTANT: netlify-identity-widget MUST load before decap-cms.
-      It intercepts the hash tokens (invite/confirmation/recovery)
-      before Decap CMS boots so auth completes correctly.
-    -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-      // If a token lands on /admin directly, process it here.
-      // This covers the case where Netlify email links point straight to /admin/#token=...
-      const hash = window.location.hash;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMS · Anuj Jain</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var hash = window.location.hash || '';
+
       if (
-        hash.includes("invite_token=") ||
-        hash.includes("confirmation_token=") ||
-        hash.includes("recovery_token=")
+        hash.includes('invite_token=') ||
+        hash.includes('recovery_token=') ||
+        hash.includes('confirmation_token=')
       ) {
-        // The widget will auto-detect the hash and open its modal.
-        // We just need to make sure we don't strip the hash before it loads.
-        window.addEventListener("load", () => {
-          if (window.netlifyIdentity) {
-            window.netlifyIdentity.open();
-          }
+        netlifyIdentity.on('login', function () {
+          window.location.href = '/admin/';
         });
+        netlifyIdentity.open();
+        return;
       }
-    </script>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
+
+      netlifyIdentity.on('init', function (user) {
+        if (!user) {
+          netlifyIdentity.open();
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
 </html>

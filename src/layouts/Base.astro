@@ -15,52 +15,13 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
-
-    <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-
-    <!-- Netlify Identity widget — MUST be in <head> so it loads before body scripts -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-    <!-- Preconnect fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body class="grain">
     <slot />
-    <script>
-      // Netlify Identity: handle invite / confirmation / recovery tokens.
-      // These email links always land on the root domain (this page) with a hash token.
-      // Critical rule: do NOT redirect away before the widget opens its modal —
-      // the user must set a password here first, otherwise account stays unconfirmed.
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", function(user) {
-          var hash = window.location.hash;
-          var isTokenFlow = hash.includes("invite_token=") ||
-                            hash.includes("confirmation_token=") ||
-                            hash.includes("recovery_token=");
-
-          if (isTokenFlow) {
-            // Widget auto-detects the hash token and opens the password modal.
-            // We wait for the "login" event (fires after password is set)
-            // before redirecting to /admin/.
-            window.netlifyIdentity.on("login", function() {
-              window.location.href = "/admin/";
-            });
-            // Safety net: force the modal open in case auto-detect didn't fire
-            setTimeout(function() {
-              window.netlifyIdentity.open();
-            }, 500);
-          } else if (!user) {
-            // Normal visit, no token — redirect to /admin/ after login
-            window.netlifyIdentity.on("login", function() {
-              window.location.href = "/admin/";
-            });
-          }
-        });
-      }
-    </script>
   </body>
 </html>
