@@ -21,7 +21,7 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
 
-    <!-- Netlify Identity for CMS auth -->
+    <!-- Netlify Identity widget — MUST be in <head> so it loads before body scripts -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
     <!-- Preconnect fonts -->
@@ -31,26 +31,32 @@ const {
   <body class="grain">
     <slot />
     <script>
-      // Handle Netlify Identity tokens that land on the main site
-      // (invite, confirmation, recovery links all redirect here first)
-      const hash = window.location.hash;
-      const hasToken =
-        hash.includes("invite_token=") ||
-        hash.includes("confirmation_token=") ||
-        hash.includes("recovery_token=") ||
-        hash.includes("access_token=");
+      // Netlify Identity: handle invite / confirmation / recovery tokens.
+      // These email links always land on the root domain (this page) with a hash token.
+      // Critical rule: do NOT redirect away before the widget opens its modal —
+      // the user must set a password here first, otherwise account stays unconfirmed.
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", function(user) {
+          var hash = window.location.hash;
+          var isTokenFlow = hash.includes("invite_token=") ||
+                            hash.includes("confirmation_token=") ||
+                            hash.includes("recovery_token=");
 
-      if (hasToken) {
-        // Let the identity widget load and process the token,
-        // then redirect to /admin so Decap CMS can finish the flow.
-        window.netlifyIdentity?.on("init", () => {
-          window.location.href = "/admin/" + hash;
-        });
-      } else if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+          if (isTokenFlow) {
+            // Widget auto-detects the hash token and opens the password modal.
+            // We wait for the "login" event (fires after password is set)
+            // before redirecting to /admin/.
+            window.netlifyIdentity.on("login", function() {
+              window.location.href = "/admin/";
+            });
+            // Safety net: force the modal open in case auto-detect didn't fire
+            setTimeout(function() {
+              window.netlifyIdentity.open();
+            }, 500);
+          } else if (!user) {
+            // Normal visit, no token — redirect to /admin/ after login
+            window.netlifyIdentity.on("login", function() {
+              window.location.href = "/admin/";
             });
           }
         });
