@@ -8,7 +8,7 @@ year: "2024"
 order: 1
 mediaType: video
 mediaSrc: ""
-cloudinaryVideo: https://res.cloudinary.com/dhsqam4ce/video/upload/v1779272827/SortGame_mp4_xjsq6o.mp4
+cloudinaryVideo: ""
 youtubeId: ""
 storeLink: https://play.google.com/store/apps/details?id=com.puzzlemaniastudio.puzzlemania
 storeLinkLabel: Google Play →
