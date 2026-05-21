@@ -16,8 +16,8 @@ public_folder: "/images/projects"
 media_library:
   name: cloudinary
   config:
-    cloud_name: YOUR_CLOUD_NAME      # ← Replace with your Cloudinary cloud name
-    api_key: YOUR_API_KEY            # ← Replace with your Cloudinary API key
+    cloud_name: "dhsqam4ce"      # ← Replace with your Cloudinary cloud name
+    api_key: "249455125613471"            # ← Replace with your Cloudinary API key
 
 collections:
   - name: "projects"
