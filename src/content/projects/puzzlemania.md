@@ -7,7 +7,7 @@ studio: Personal Project
 year: "2024"
 order: 1
 mediaType: image
-mediaSrc: ""
+mediaSrc: https://res.cloudinary.com/dcbzgebuv/image/upload/v1779353814/SkyWalk_2_cagxyq.gif
 cloudinaryVideo: https://res.cloudinary.com/dhsqam4ce/video/upload/q_auto/f_auto/v1779272827/SortGame_mp4_xjsq6o.mp4
 youtubeId: ""
 storeLink: https://play.google.com/store/apps/details?id=com.puzzlemaniastudio.puzzlemania
