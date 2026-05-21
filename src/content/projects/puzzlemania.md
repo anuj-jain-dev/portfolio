@@ -1,41 +1,29 @@
 ---
 title: "PuzzleMania: Fun Games"
-subtitle: Solo End-to-End · Android
-status: LIVE
-platform: Android
-studio: Personal Project
+subtitle: "Solo End-to-End · Android"
+status: "LIVE"
+platform: "Android"
+studio: "Personal Project"
 year: "2024"
 order: 1
-mediaType: image
-mediaSrc: https://res.cloudinary.com/dcbzgebuv/image/upload/v1779353814/SkyWalk_2_cagxyq.gif
-cloudinaryVideo: https://res.cloudinary.com/dhsqam4ce/video/upload/q_auto/f_auto/v1779272827/SortGame_mp4_xjsq6o.mp4
-youtubeId: ""
-storeLink: https://play.google.com/store/apps/details?id=com.puzzlemaniastudio.puzzlemania
-storeLinkLabel: Google Play →
-githubLink: https://github.com/anuj-jain-13
-techChallenge: Architected the entire game solo from scratch — a state machine
-  for puzzle progression, object pooling for board tiles, and a custom level
-  serialisation system that supports infinite future level packs without code
-  changes.
-businessOutcome: "Independently shipped and live on Google Play. Full
-  monetisation pipeline built: Unity LevelPlay Ads + Unity IAP. Own release
-  pipeline from APK signing to Play Console staged rollouts."
-codeSignals: MVC separation throughout. ScriptableObject-driven level data means
-  zero hardcoded level logic. Event bus for complete UI decoupling. All
-  config-driven for live content updates post-launch without app updates.
-tags:
-  - Unity
-  - C#
-  - Android
-  - Unity Ads
-  - IAP
-  - ScriptableObject
-  - Solo Dev
-  - Google Play
-metrics:
-  - 1 Developer
-  - 100% Ownership
-  - Live on Play Store
-accent: "#C8F135"
 featured: true
+mediaItems:
+  - label: "Gameplay"
+    type: "image"
+    src: ""
+    cloudinaryUrl: ""
+    youtubeId: ""
+  - label: "Main Menu"
+    type: "image"
+    src: ""
+    cloudinaryUrl: ""
+    youtubeId: ""
+storeLink: "https://play.google.com/store/apps/details?id=com.puzzlemaniastudio.puzzlemania"
+storeLinkLabel: "Google Play →"
+githubLink: "https://github.com/anuj-jain-13"
+techChallenge: "Architected the entire game solo — state machine for puzzle progression, object pooling for board tiles, and a custom level serialisation system that supports infinite future level packs without code changes."
+businessOutcome: "Independently shipped and live on Google Play. Full monetisation pipeline: Unity LevelPlay Ads + Unity IAP. Own release pipeline from APK signing to Play Console staged rollouts."
+codeSignals: "MVC separation throughout. ScriptableObject-driven level data — zero hardcoded level logic. Event bus for complete UI decoupling. All config-driven for live content updates post-launch."
+tags: ["Unity", "C#", "Android", "Unity Ads", "IAP", "ScriptableObject", "Solo Dev"]
+accent: "#1a56db"
 ---

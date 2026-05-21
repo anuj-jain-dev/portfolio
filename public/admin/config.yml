@@ -2,24 +2,73 @@ backend:
   name: git-gateway
   branch: main
 
-# This tells Netlify Identity where your site lives.
-# Without this, email confirmation links can redirect incorrectly.
-site_url: https://anuj-jain-portfolio.netlify.app
-
-# After login, go straight to the collections list
+site_url: https://anuj-jain-dev.netlify.app
 local_backend: false
 
-media_folder: "public/images/projects"
-public_folder: "/images/projects"
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
 
-# Cloudinary media library integration
 media_library:
   name: cloudinary
   config:
-    cloud_name: "dcbzgebuv"      # ← Replace with your Cloudinary cloud name
-    api_key: "898847298844218"            # ← Replace with your Cloudinary API key
+    cloud_name: "dcbzgebuv"
+    api_key: "898847298844218"
 
 collections:
+
+  # ── SHOWCASE REEL ─────────────────────────────────────────────────────────
+  # Independent from Projects. Add any video/GIF here — gameplay clips,
+  # dev process recordings, anything you want displayed in the visual reel.
+  - name: "reel"
+    label: "Showcase Reel"
+    label_singular: "Reel Item"
+    files:
+      - name: "reel"
+        label: "Reel Items"
+        file: "src/content/reel/reel.md"
+        fields:
+          - label: "Reel Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string", hint: "e.g. PuzzleMania Gameplay" }
+              - { label: "Caption", name: "caption", widget: "string", hint: "One line shown below the media" }
+              - label: "Media Type"
+                name: "mediaType"
+                widget: "select"
+                options:
+                  - { label: "MP4 Video (Cloudinary)", value: "video" }
+                  - { label: "GIF / Image", value: "image" }
+                  - { label: "YouTube", value: "youtube" }
+                default: "video"
+              - label: "GIF or Image File"
+                name: "mediaSrc"
+                widget: "image"
+                required: false
+                hint: "Upload a GIF or screenshot directly"
+              - label: "Cloudinary MP4 URL"
+                name: "cloudinaryVideo"
+                widget: "string"
+                required: false
+                hint: "Paste the full .mp4 URL from your Cloudinary dashboard"
+              - label: "YouTube Video ID"
+                name: "youtubeId"
+                widget: "string"
+                required: false
+                hint: "Just the ID from youtube.com/watch?v=THIS_PART"
+              - label: "Project Link (optional)"
+                name: "projectLink"
+                widget: "string"
+                required: false
+                hint: "Play Store, App Store, or website URL"
+              - label: "Sort Order"
+                name: "order"
+                widget: "number"
+                default: 99
+                hint: "Lower = appears first"
+
+  # ── PROJECTS ──────────────────────────────────────────────────────────────
   - name: "projects"
     label: "Projects"
     label_singular: "Project"
@@ -29,80 +78,56 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Subtitle", name: "subtitle", widget: "string", hint: "Short descriptor e.g. 'Solo Mobile Game · Android'" }
+      - { label: "Subtitle", name: "subtitle", widget: "string", hint: "e.g. Solo Mobile Game · Android" }
       - label: "Status"
         name: "status"
         widget: "select"
         options: ["LIVE", "CURRENT", "SHIPPED", "WIP"]
         default: "SHIPPED"
       - { label: "Platform", name: "platform", widget: "string", hint: "e.g. iOS · Android · WebGL" }
-      - { label: "Studio / Type", name: "studio", widget: "string", hint: "e.g. Phonato Studios or Personal Project" }
+      - { label: "Studio / Type", name: "studio", widget: "string" }
       - { label: "Year", name: "year", widget: "string", hint: "e.g. 2022–2024" }
-      - label: "Sort Order"
-        name: "order"
-        widget: "number"
-        default: 99
-        hint: "Lower number = appears first"
-      - label: "Media Type"
-        name: "mediaType"
-        widget: "select"
-        options:
-          - { label: "GIF", value: "gif" }
-          - { label: "MP4 Video", value: "video" }
-          - { label: "YouTube Embed", value: "youtube" }
-          - { label: "Screenshot / Image", value: "image" }
-        default: "image"
-      - label: "Media File (GIF / Image / MP4)"
-        name: "mediaSrc"
-        widget: "image"
+      - { label: "Sort Order", name: "order", widget: "number", default: 99, hint: "Lower = appears first" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+
+      # ── MULTIPLE MEDIA ───────────────────────────────────────────────────
+      # Add as many GIFs, MP4s, or YouTube clips as you want per project.
+      # They will display as a scrollable carousel in the Projects section.
+      - label: "Media Gallery"
+        name: "mediaItems"
+        widget: "list"
         required: false
-        hint: "Upload GIF or image. For MP4, use Cloudinary URL below."
-      - label: "Cloudinary Video URL"
-        name: "cloudinaryVideo"
-        widget: "string"
-        required: false
-        hint: "Paste full Cloudinary MP4 URL here for video projects"
-      - label: "YouTube Video ID"
-        name: "youtubeId"
-        widget: "string"
-        required: false
-        hint: "Just the ID part from the YouTube URL e.g. dQw4w9WgXcQ"
-      - label: "Store / Live Link"
-        name: "storeLink"
-        widget: "string"
-        required: false
-        hint: "Google Play, App Store, or website URL"
+        summary: "{{fields.label}}"
+        hint: "Add multiple videos/GIFs for this project — they appear as a carousel"
+        fields:
+          - { label: "Label", name: "label", widget: "string", hint: "e.g. Gameplay, Main Menu, Boss Fight" }
+          - label: "Media Type"
+            name: "type"
+            widget: "select"
+            options:
+              - { label: "MP4 Video (Cloudinary)", value: "video" }
+              - { label: "GIF / Image", value: "image" }
+              - { label: "YouTube", value: "youtube" }
+            default: "video"
+          - label: "GIF or Image File"
+            name: "src"
+            widget: "image"
+            required: false
+          - label: "Cloudinary MP4 URL"
+            name: "cloudinaryUrl"
+            widget: "string"
+            required: false
+            hint: "Full .mp4 URL from Cloudinary"
+          - label: "YouTube Video ID"
+            name: "youtubeId"
+            widget: "string"
+            required: false
+
+      - { label: "Store / Live Link", name: "storeLink", widget: "string", required: false }
       - { label: "Store Link Label", name: "storeLinkLabel", widget: "string", required: false, default: "View Live →" }
-      - label: "GitHub Repo"
-        name: "githubLink"
-        widget: "string"
-        required: false
-      - label: "Tech Challenge"
-        name: "techChallenge"
-        widget: "text"
-        hint: "What was the hard technical problem you solved?"
-      - label: "Business Outcome"
-        name: "businessOutcome"
-        widget: "text"
-        hint: "What shipped? What was the real-world result?"
-      - label: "Code Quality Signals"
-        name: "codeSignals"
-        widget: "text"
-        hint: "Design patterns, architecture decisions, what makes your code good?"
-      - label: "Tags"
-        name: "tags"
-        widget: "list"
-        hint: "e.g. Unity, C#, iOS, Object Pooling"
-      - label: "Key Metrics"
-        name: "metrics"
-        widget: "list"
-        hint: "e.g. '3 Platforms', 'Live on Play Store', '0ms GC during spin'"
-      - label: "Accent Color"
-        name: "accent"
-        widget: "color"
-        default: "#C8F135"
-      - label: "Featured"
-        name: "featured"
-        widget: "boolean"
-        default: false
-        hint: "Featured projects appear larger at the top"
+      - { label: "GitHub Repo", name: "githubLink", widget: "string", required: false }
+      - { label: "Tech Challenge", name: "techChallenge", widget: "text" }
+      - { label: "Business Outcome", name: "businessOutcome", widget: "text" }
+      - { label: "Code Quality Signals", name: "codeSignals", widget: "text" }
+      - { label: "Tags", name: "tags", widget: "list" }
+      - { label: "Accent Color", name: "accent", widget: "color", default: "#1a56db" }

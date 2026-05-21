@@ -1,120 +1,66 @@
 ---
+import MediaCarousel from './MediaCarousel.astro';
+
+// Load reel items from CMS-managed file
+const reelFile = await Astro.glob('../content/reel/reel.md');
+const reelItems = reelFile[0]?.frontmatter?.items ?? [];
+const sorted = [...reelItems].sort((a: any, b: any) => (a.order ?? 99) - (b.order ?? 99));
+
+// Separate featured (first item gets large slot) from rest
+const [featured, ...rest] = sorted;
 ---
-<!--
-  SHOWCASE REEL
-  This section sits between Skills and Projects.
-  Each reel-item maps to a project's GIF/video.
-  To add media: go to /admin → Projects → upload your GIF or Cloudinary MP4 URL.
-  The CMS writes to content/projects/*.md — the Projects section renders those.
-  This Reel section is a VISUAL-ONLY highlight strip — no text, just motion.
-  Replace the mediaSrc values below with your actual Cloudinary URLs or /images/ paths.
--->
 
 <section id="reel" class="section-pad" style="background:var(--bg2);">
   <div class="container">
 
     <div class="label reveal" style="margin-bottom:12px;">Showcase Reel</div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:36px;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
       <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-0.8px;margin:0;">
         Games in motion
       </h2>
-      <p class="reveal" style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.6;margin:0;">
-        This is what a resume PDF can't show you — actual shipped gameplay.
+      <p class="reveal" style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);max-width:380px;line-height:1.65;margin:0;">
+        What a PDF résumé can't show — actual shipped gameplay. Add clips via
+        <a href="/admin/#/collections/reel" style="color:var(--accent);font-weight:600;">/admin → Showcase Reel</a>.
       </p>
     </div>
 
-    <div class="reel-grid">
+    {/* Featured (large, full width) */}
+    {featured && (
+      <div class="reveal" style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:16px;">
+        <MediaCarousel
+          items={[featured]}
+          id="reel-featured"
+          aspectRatio="16/9"
+          showCaptions={true}
+        />
+      </div>
+    )}
 
-      <!-- FEATURED: PuzzleMania — replace src with your Cloudinary MP4 or GIF URL -->
-      <div class="reel-item featured reveal">
-        <div class="reel-placeholder" style="aspect-ratio:16/9;">
-          <!-- When you have media, replace this entire div with:
-               <video src="YOUR_CLOUDINARY_URL" autoplay muted loop playsinline style="width:100%;display:block;"></video>
-               OR
-               <img src="YOUR_GIF_URL" alt="PuzzleMania gameplay" style="width:100%;display:block;">
-          -->
-          <div style="font-size:52px;">🎮</div>
-          <p style="font-family:var(--font-body);font-size:13px;color:rgba(255,255,255,0.35);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 20px;">
-            PuzzleMania · Drop your GIF/MP4 here via /admin
-          </p>
-        </div>
-        <div style="padding:16px 20px;background:#111113;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-          <div>
-            <span style="font-family:var(--font-body);font-size:13px;font-weight:700;color:#fff;">PuzzleMania: Fun Games</span>
-            <span style="font-family:var(--font-body);font-size:11px;color:rgba(255,255,255,0.35);margin-left:10px;">Solo · Android · Live</span>
+    {/* Rest grid */}
+    {rest.length > 0 && (
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        {rest.map((item: any, i: number) => (
+          <div class="reveal" style={`border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);animation-delay:${i*0.07}s`}>
+            <MediaCarousel
+              items={[item]}
+              id={`reel-${i}`}
+              aspectRatio="16/9"
+              showCaptions={true}
+            />
           </div>
-          <a href="https://play.google.com/store/apps/details?id=com.puzzlemaniastudio.puzzlemania"
-            target="_blank" rel="noopener"
-            style="font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap;">
-            Play Store ↗
-          </a>
-        </div>
+        ))}
       </div>
+    )}
 
-      <!-- Camel Cash Casino -->
-      <div class="reel-item reveal" style="animation-delay:0.1s;">
-        <div class="reel-placeholder" style="aspect-ratio:16/9;">
-          <!-- Replace with: <video src="YOUR_URL" autoplay muted loop playsinline style="width:100%;display:block;"></video> -->
-          <div style="font-size:44px;">🎰</div>
-          <p style="font-family:var(--font-body);font-size:12px;color:rgba(255,255,255,0.35);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 16px;">
-            Camel Cash Casino · Drop MP4 via /admin
-          </p>
-        </div>
-        <div style="padding:14px 18px;background:#111113;display:flex;align-items:center;justify-content:space-between;gap:10px;">
-          <div>
-            <span style="font-family:var(--font-body);font-size:13px;font-weight:700;color:#fff;">Camel Cash Casino</span>
-            <span style="font-family:var(--font-body);font-size:11px;color:rgba(255,255,255,0.35);margin-left:8px;">Lead Dev · iOS/Android/WebGL</span>
-          </div>
-          <a href="https://www.camelcashgame.com" target="_blank" rel="noopener"
-            style="font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap;">
-            Live ↗
-          </a>
-        </div>
+    {/* Empty state */}
+    {sorted.length === 0 && (
+      <div style="border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:56px;text-align:center;">
+        <p style="font-size:15px;color:var(--text-muted);font-weight:600;margin:0 0 6px;">No reel items yet</p>
+        <p style="font-size:13px;color:var(--text-muted);opacity:0.6;margin:0;">
+          Add clips at <a href="/admin/#/collections/reel" style="color:var(--accent);">/admin → Showcase Reel</a>
+        </p>
       </div>
-
-      <!-- 7 Star Vegas -->
-      <div class="reel-item reveal" style="animation-delay:0.15s;">
-        <div class="reel-placeholder" style="aspect-ratio:16/9;">
-          <div style="font-size:44px;">⭐</div>
-          <p style="font-family:var(--font-body);font-size:12px;color:rgba(255,255,255,0.35);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 16px;">
-            7 Star Vegas Slots · Drop GIF via /admin
-          </p>
-        </div>
-        <div style="padding:14px 18px;background:#111113;display:flex;align-items:center;justify-content:space-between;gap:10px;">
-          <div>
-            <span style="font-family:var(--font-body);font-size:13px;font-weight:700;color:#fff;">7 Star Vegas Slots</span>
-            <span style="font-family:var(--font-body);font-size:11px;color:rgba(255,255,255,0.35);margin-left:8px;">Slot Engine · iOS</span>
-          </div>
-          <a href="https://apps.apple.com/gb/app/vegas-slots-slot-machines/id1068193972"
-            target="_blank" rel="noopener"
-            style="font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap;">
-            App Store ↗
-          </a>
-        </div>
-      </div>
-
-      <!-- UROC Framework -->
-      <div class="reel-item reveal" style="animation-delay:0.2s;">
-        <div class="reel-placeholder" style="aspect-ratio:16/9;">
-          <div style="font-size:44px;">🏗️</div>
-          <p style="font-family:var(--font-body);font-size:12px;color:rgba(255,255,255,0.35);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 16px;">
-            UROC Slot Framework · Drop MP4 via /admin
-          </p>
-        </div>
-        <div style="padding:14px 18px;background:#111113;">
-          <span style="font-family:var(--font-body);font-size:13px;font-weight:700;color:#fff;">Slot Framework @ UROC</span>
-          <span style="font-family:var(--font-body);font-size:11px;color:rgba(255,255,255,0.35);margin-left:8px;">Current · Remote</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Instruction note — remove once real media is added -->
-    <p class="reveal" style="margin-top:20px;font-size:13px;color:var(--text-muted);text-align:center;">
-      📽 Add your GIFs and MP4s at
-      <a href="/admin/" style="color:var(--accent);font-weight:600;">yoursite.netlify.app/admin</a>
-      → Projects → upload media → Save
-    </p>
+    )}
 
   </div>
 </section>

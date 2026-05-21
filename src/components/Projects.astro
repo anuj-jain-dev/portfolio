@@ -1,20 +1,28 @@
 ---
+import MediaCarousel from './MediaCarousel.astro';
+
+interface MediaItem {
+  label: string;
+  type: string;
+  src?: string;
+  cloudinaryUrl?: string;
+  youtubeId?: string;
+}
 interface Project {
   data: {
     title: string; subtitle: string; status: string;
     platform: string; studio: string; year: string;
     order: number; featured: boolean;
-    mediaType: string; mediaSrc?: string;
-    cloudinaryVideo?: string; youtubeId?: string;
-    storeLink?: string; storeLinkLabel?: string;
-    githubLink?: string;
+    mediaItems?: MediaItem[];
+    storeLink?: string; storeLinkLabel?: string; githubLink?: string;
     techChallenge: string; businessOutcome: string; codeSignals: string;
-    tags: string[]; metrics: string[]; accent: string;
+    tags: string[]; accent: string;
   };
   slug: string;
 }
 interface Props { projects: Project[]; }
 const { projects } = Astro.props;
+
 const statusColor: Record<string,string> = {
   LIVE:'#16a34a', CURRENT:'#1a56db', SHIPPED:'#92400e', WIP:'#b45309'
 };
@@ -28,52 +36,56 @@ const statusColor: Record<string,string> = {
       <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-0.8px;margin:0;">
         Shipped work, real products
       </h2>
-      <p class="reveal" style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.65;margin:0;">
-        Architecture decisions, outcomes, code quality signals — the full picture behind each title.
+      <p class="reveal" style="font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.65;margin:0;">
+        Architecture decisions, outcomes, code signals — the full picture. Upload multiple clips per project via
+        <a href="/admin/#/collections/projects" style="color:var(--accent);font-weight:600;">/admin → Projects</a>.
       </p>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:24px;">
+    <div style="display:flex;flex-direction:column;gap:32px;">
       {projects.map((project, i) => {
         const p = project.data;
         const sc = statusColor[p.status] ?? '#8a8680';
+        const media = p.mediaItems ?? [];
+
         return (
           <article class="proj-card reveal" style={`animation-delay:${i*0.07}s`}>
 
-            <!-- FULL-WIDTH MEDIA on top -->
-            <div class="proj-media">
-              {p.mediaType === 'youtube' && p.youtubeId ? (
-                <div style="position:relative;padding-top:56.25%;">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${p.youtubeId}?autoplay=0&rel=0&modestbranding=1`}
-                    style="position:absolute;inset:0;width:100%;height:100%;border:none;"
-                    allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
-                    allowfullscreen loading="lazy" title={p.title}
-                  />
-                </div>
-              ) : p.mediaType === 'video' && p.cloudinaryVideo ? (
-                <video src={p.cloudinaryVideo} autoplay muted loop playsinline
-                  style="width:100%;max-height:560px;object-fit:cover;" />
-              ) : p.mediaSrc ? (
-                <img src={p.mediaSrc} alt={`${p.title} gameplay`}
-                  style="width:100%;max-height:560px;object-fit:cover;" loading="lazy" />
+            {/* ── FULL-WIDTH MEDIA CAROUSEL ── */}
+            <div style="border-radius:var(--radius-lg) var(--radius-lg) 0 0;overflow:hidden;">
+              {media.length > 0 ? (
+                <MediaCarousel
+                  items={media}
+                  id={`proj-${project.slug}`}
+                  aspectRatio="16/9"
+                  showCaptions={false}
+                />
               ) : (
-                <div class="proj-media-placeholder">
-                  <div style="font-size:48px;">🎮</div>
-                  <p style="font-size:13px;color:rgba(255,255,255,0.3);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 20px;margin:0;">
-                    {p.title} · Upload GIF or MP4 via /admin
+                <div style="aspect-ratio:16/9;background:#111113;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
+                  <div style="font-size:44px;">🎮</div>
+                  <p style="font-family:var(--font-body);font-size:12px;color:rgba(255,255,255,0.28);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 20px;margin:0;">
+                    {p.title} · Add media via /admin → Projects
                   </p>
                 </div>
               )}
-
-              {/* Accent bar at bottom of media */}
               <div style={`height:3px;background:${p.accent};`}></div>
             </div>
 
-            <!-- Project details below media, full width -->
+            {/* ── SLIDE COUNTER (shows if multiple) ── */}
+            {media.length > 1 && (
+              <div style="padding:8px 20px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                <span style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;">{media.length} CLIPS</span>
+                <span style="font-size:11px;color:var(--text-muted);opacity:0.5;">· swipe or use arrows ·</span>
+                {media.map(m => (
+                  <span style="font-size:11px;color:var(--text-mid);background:var(--bg3);border-radius:4px;padding:2px 8px;">{m.label}</span>
+                ))}
+              </div>
+            )}
+
+            {/* ── PROJECT DETAILS ── */}
             <div class="proj-body">
 
-              <!-- Status + meta row -->
+              {/* Status + meta */}
               <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
                 <span style={`font-size:11px;font-weight:800;color:${sc};letter-spacing:0.12em;display:flex;align-items:center;gap:6px;`}>
                   <span style={`width:6px;height:6px;border-radius:50%;background:${sc};display:inline-block;${p.status==='LIVE'||p.status==='CURRENT'?'animation:pulse-dot 2s infinite;':''}`}></span>
@@ -84,16 +96,14 @@ const statusColor: Record<string,string> = {
                 <span style="font-size:12px;color:var(--text-muted);margin-left:auto;">{p.year}</span>
               </div>
 
-              <!-- Title + subtitle -->
+              {/* Title */}
               <h3 style="font-family:var(--font-head);font-size:clamp(20px,2.5vw,28px);font-weight:700;color:var(--text);letter-spacing:-0.3px;margin:0 0 4px;line-height:1.2;">
                 {p.title}
               </h3>
-              <p style="font-size:14px;color:var(--text-muted);font-weight:500;margin:0 0 20px;">
-                {p.subtitle}
-              </p>
+              <p style="font-size:14px;color:var(--text-muted);font-weight:500;margin:0 0 22px;">{p.subtitle}</p>
 
-              <!-- Case study: 3 columns on desktop -->
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:20px;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+              {/* Case study — 3 col */}
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:20px;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
                 {[
                   ['⚙ Tech Challenge', p.techChallenge],
                   ['📈 Outcome', p.businessOutcome],
@@ -106,7 +116,7 @@ const statusColor: Record<string,string> = {
                 ))}
               </div>
 
-              <!-- Tags + links row -->
+              {/* Tags + links */}
               <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
                 <div style="display:flex;flex-wrap:wrap;gap:6px;">
                   {p.tags.map(t => <span class="tag">{t}</span>)}
@@ -131,11 +141,12 @@ const statusColor: Record<string,string> = {
       })}
     </div>
 
-    <!-- Add more -->
-    <div class="reveal" style="margin-top:20px;border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:36px;text-align:center;">
-      <p style="font-size:15px;color:var(--text-muted);font-weight:600;margin:0 0 4px;">More projects on the way</p>
+    {/* Add more */}
+    <div class="reveal" style="margin-top:24px;border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:32px;text-align:center;">
+      <p style="font-size:15px;color:var(--text-muted);font-weight:600;margin:0 0 4px;">Add more projects or media</p>
       <p style="font-size:13px;color:var(--text-muted);opacity:0.6;margin:0;">
-        Add new projects at <strong style="color:var(--accent);">yoursite.netlify.app/admin</strong> — no code needed
+        <a href="/admin/#/collections/projects" style="color:var(--accent);font-weight:600;">/admin → Projects</a>
+        — create new entries or add clips to existing ones
       </p>
     </div>
 
