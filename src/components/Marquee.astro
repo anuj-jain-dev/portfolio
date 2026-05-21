@@ -1,16 +1,22 @@
 ---
-const items = ['Unity','C#','ScriptableObjects','Spine Animation','Unity Timeline',
-  'Object Pooling','SmartFoxServer','WebGL','iOS','Android','Addressables',
-  'IAP','Unity Ads','Casino Systems','Slot Frameworks','Puzzle Games','Remote-First'];
+const items = [
+  'Unity','C#','Scriptable Objects','Spine Animation','Unity Timeline',
+  'Object Pooling','SmartFoxServer','WebGL','iOS','Android',
+  'Addressables','IAP','Unity Ads','Casino Systems','Slot Frameworks',
+  'Puzzle Games','Remote-First','MVC Architecture','Design Patterns',
+  'Event-Driven Systems','Cross-Platform','Git','Jira',
+  'Google Play','App Store','Vibe Coding','Claude AI',
+  'AI-Assisted Dev','Generative AI','LLM Integration'
+];
 const doubled = [...items, ...items];
 ---
 <div class="marquee-wrap">
   <div class="marquee-track">
     {doubled.map((item, i) => (
-      <span class="marquee-item">
-        {item}
-        {i < doubled.length - 1 && <span class="marquee-dot">✦</span>}
-      </span>
+      <>
+        <span class="marquee-item">{item}</span>
+        <span class="marquee-sep">✦</span>
+      </>
     ))}
   </div>
 </div>

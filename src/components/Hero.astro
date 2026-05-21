@@ -1,60 +1,69 @@
 ---
 ---
-<section class="hero" id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow" style="top:-10%;right:-15%;width:55vw;height:55vw;max-width:700px;max-height:700px;"></div>
-  <div class="hero-glow" style="bottom:-20%;left:-10%;width:40vw;height:40vw;max-width:500px;max-height:500px;opacity:0.5;"></div>
+<section id="hero" style="
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 100px clamp(18px,5vw,64px) 60px;
+  background: var(--bg);
+  position: relative; overflow: hidden;
+">
+  <!-- Subtle dot grid -->
+  <div style="
+    position:absolute;inset:0;pointer-events:none;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  "></div>
 
   <div class="container" style="position:relative;width:100%;">
+    <div style="max-width:780px;">
 
-    <!-- Availability badge -->
-    <div class="animate-fade-up delay-1" style="margin-bottom:28px;">
-      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(200,241,53,0.08);border:1px solid rgba(200,241,53,0.2);border-radius:100px;padding:8px 18px;">
-        <span style="width:7px;height:7px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse-dot 2s infinite;"></span>
-        <span style="font-family:var(--font-body);font-size:12px;font-weight:800;color:var(--lime);letter-spacing:0.14em;">OPEN TO REMOTE ROLES</span>
+      <!-- Status badge -->
+      <div style="margin-bottom:24px;opacity:0;animation:fadeUp 0.6s 0.1s both;">
+        <span style="
+          display:inline-flex;align-items:center;gap:8px;
+          background:var(--green-bg);border:1px solid rgba(22,163,74,0.25);
+          border-radius:100px;padding:6px 14px;
+        ">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite;display:inline-block;"></span>
+          <span style="font-size:12px;font-weight:700;color:var(--green);letter-spacing:0.1em;">AVAILABLE FOR REMOTE ROLES</span>
+        </span>
       </div>
+
+      <!-- Name — calibrated size, not overwhelming -->
+      <h1 style="
+        font-family:var(--font-head);font-weight:700;
+        font-size:clamp(36px,5.5vw,64px);
+        letter-spacing:-1.5px;line-height:1.1;
+        color:var(--text);margin:0 0 10px;
+        opacity:0;animation:fadeUp 0.65s 0.2s both;
+      ">Anuj Jain</h1>
+
+      <!-- Title line -->
+      <p style="
+        font-family:var(--font-body);font-size:clamp(15px,2vw,19px);
+        color:var(--accent);font-weight:600;
+        margin:0 0 20px;letter-spacing:0.02em;
+        opacity:0;animation:fadeUp 0.65s 0.3s both;
+      ">Senior Unity Developer &nbsp;·&nbsp; Mobile &nbsp;·&nbsp; WebGL &nbsp;·&nbsp; Remote</p>
+
+      <!-- Tagline -->
+      <p style="
+        font-family:var(--font-body);font-size:clamp(16px,1.8vw,20px);
+        color:var(--text-mid);line-height:1.65;max-width:600px;
+        margin:0 0 36px;font-weight:400;
+        opacity:0;animation:fadeUp 0.65s 0.4s both;
+      ">
+        I build game systems that scale — across titles, teams, and time zones.
+        Slot frameworks, mobile games, WebGL — shipped and live.
+      </p>
+
+      <!-- CTAs -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.65s 0.5s both;">
+        <button class="btn btn-primary" onclick="smoothGo('#reel')">View My Work ↓</button>
+        <a href="mailto:anuj132000@gmail.com" class="btn btn-outline">Get in touch</a>
+      </div>
+
     </div>
-
-    <!-- Main headline -->
-    <h1 class="animate-fade-up delay-2 hero-title"
-      style="font-family:var(--font-display);font-weight:400;letter-spacing:-4px;line-height:0.92;margin:0 0 36px;color:var(--text);">
-      <span style="display:block;font-size:clamp(60px,12vw,140px);">Anuj Jain</span>
-      <span style="display:block;font-size:clamp(36px,7vw,84px);color:var(--text-muted);font-style:italic;font-weight:400;">
-        Senior Unity Dev
-      </span>
-    </h1>
-
-    <!-- Tagline -->
-    <p class="animate-fade-up delay-3"
-      style="font-family:var(--font-display);font-size:clamp(18px,2.4vw,27px);color:var(--text-mid);font-style:italic;font-weight:400;line-height:1.45;max-width:640px;margin:0 0 48px;">
-      "I build game systems that scale — across titles, teams, and time zones."
-    </p>
-
-    <!-- CTAs -->
-    <div class="animate-fade-up delay-4" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:80px;">
-      <button class="btn btn-lime" onclick="document.querySelector('#projects').scrollIntoView({behavior:'smooth'})">
-        See My Work ↓
-      </button>
-      <a href="mailto:anuj132000@gmail.com" class="btn btn-outline">
-        Start a conversation
-      </a>
-    </div>
-
-    <!-- Stats -->
-    <div class="animate-fade-up delay-5 stats-row"
-      style="display:flex;gap:clamp(28px,5vw,72px);flex-wrap:wrap;padding-top:40px;border-top:1px solid var(--border);">
-      {[
-        ['13+', 'Years in Unity'],
-        ['5+', 'Shipped Titles'],
-        ['3', 'Platforms at Once'],
-        ['1', 'Developer, Full Stack'],
-      ].map(([n, l]) => (
-        <div>
-          <div style="font-family:var(--font-display);font-size:clamp(32px,5vw,52px);color:var(--lime);font-weight:400;line-height:1;letter-spacing:-1px;">{n}</div>
-          <div style="font-family:var(--font-body);font-size:12px;color:var(--text-muted);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-top:8px;">{l}</div>
-        </div>
-      ))}
-    </div>
-
   </div>
 </section>
