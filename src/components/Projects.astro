@@ -1,28 +1,19 @@
 ---
 import MediaCarousel from './MediaCarousel.astro';
 
-interface MediaItem {
-  label: string;
-  type: string;
-  src?: string;
-  cloudinaryUrl?: string;
-  youtubeId?: string;
-}
+interface MediaItem { label: string; type: string; src?: string; cloudinaryUrl?: string; youtubeId?: string; }
 interface Project {
   data: {
-    title: string; subtitle: string; status: string;
-    platform: string; studio: string; year: string;
-    order: number; featured: boolean;
-    mediaItems?: MediaItem[];
-    storeLink?: string; storeLinkLabel?: string; githubLink?: string;
-    techChallenge: string; businessOutcome: string; codeSignals: string;
-    tags: string[]; accent: string;
+    title: string; subtitle: string; status: string; platform: string;
+    studio: string; year: string; order: number; featured: boolean;
+    mediaItems?: MediaItem[]; storeLink?: string; storeLinkLabel?: string;
+    githubLink?: string; techChallenge: string; businessOutcome: string;
+    codeSignals: string; tags: string[]; accent: string;
   };
   slug: string;
 }
 interface Props { projects: Project[]; }
 const { projects } = Astro.props;
-
 const statusColor: Record<string,string> = {
   LIVE:'#16a34a', CURRENT:'#1a56db', SHIPPED:'#92400e', WIP:'#b45309'
 };
@@ -31,63 +22,50 @@ const statusColor: Record<string,string> = {
 <section id="projects" class="section-pad" style="background:var(--bg);">
   <div class="container">
 
-    <div class="label reveal" style="margin-bottom:12px;">Projects</div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:48px;">
-      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-0.8px;margin:0;">
+    <div class="label reveal" style="margin-bottom:10px;">Projects</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:40px;">
+      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(22px,3vw,38px);font-weight:700;color:var(--text);letter-spacing:-0.6px;margin:0;">
         Shipped work, real products
       </h2>
-      <p class="reveal" style="font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.65;margin:0;">
-        Architecture decisions, outcomes, code signals — the full picture. Upload multiple clips per project via
-        <a href="/admin/#/collections/projects" style="color:var(--accent);font-weight:600;">/admin → Projects</a>.
+      <p class="reveal" style="font-size:14px;color:var(--text-muted);max-width:340px;line-height:1.6;margin:0;">
+        Architecture, outcomes, code quality — the full picture behind each title.
       </p>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:32px;">
+    <div style="display:flex;flex-direction:column;gap:28px;">
       {projects.map((project, i) => {
         const p = project.data;
         const sc = statusColor[p.status] ?? '#8a8680';
         const media = p.mediaItems ?? [];
-
         return (
-          <article class="proj-card reveal" style={`animation-delay:${i*0.07}s`}>
+          <article class="proj-card reveal" style={`animation-delay:${i*0.06}s`}>
 
-            {/* ── FULL-WIDTH MEDIA CAROUSEL ── */}
+            <!-- Full-width media -->
             <div style="border-radius:var(--radius-lg) var(--radius-lg) 0 0;overflow:hidden;">
               {media.length > 0 ? (
-                <MediaCarousel
-                  items={media}
-                  id={`proj-${project.slug}`}
-                  aspectRatio="16/9"
-                  showCaptions={false}
-                />
+                <MediaCarousel items={media} id={`proj-${project.slug}`} aspectRatio="16/9" showCaptions={false} />
               ) : (
                 <div style="aspect-ratio:16/9;background:#111113;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
-                  <div style="font-size:44px;">🎮</div>
-                  <p style="font-family:var(--font-body);font-size:12px;color:rgba(255,255,255,0.28);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 20px;margin:0;">
-                    {p.title} · Add media via /admin → Projects
-                  </p>
+                  <div style="font-size:40px;">🎮</div>
+                  <p style="font-size:11px;color:rgba(255,255,255,0.25);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 20px;margin:0;">Media coming soon</p>
                 </div>
               )}
               <div style={`height:3px;background:${p.accent};`}></div>
             </div>
 
-            {/* ── SLIDE COUNTER (shows if multiple) ── */}
             {media.length > 1 && (
-              <div style="padding:8px 20px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <div style="padding:7px 18px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                 <span style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;">{media.length} CLIPS</span>
-                <span style="font-size:11px;color:var(--text-muted);opacity:0.5;">· swipe or use arrows ·</span>
-                {media.map(m => (
-                  <span style="font-size:11px;color:var(--text-mid);background:var(--bg3);border-radius:4px;padding:2px 8px;">{m.label}</span>
+                <span style="font-size:11px;color:var(--text-muted);opacity:0.4;">·</span>
+                {media.map((m: MediaItem) => (
+                  <span style="font-size:11px;color:var(--text-mid);background:var(--bg3);border-radius:4px;padding:2px 7px;">{m.label}</span>
                 ))}
               </div>
             )}
 
-            {/* ── PROJECT DETAILS ── */}
             <div class="proj-body">
-
-              {/* Status + meta */}
-              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
-                <span style={`font-size:11px;font-weight:800;color:${sc};letter-spacing:0.12em;display:flex;align-items:center;gap:6px;`}>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+                <span style={`font-size:11px;font-weight:800;color:${sc};letter-spacing:0.12em;display:flex;align-items:center;gap:5px;`}>
                   <span style={`width:6px;height:6px;border-radius:50%;background:${sc};display:inline-block;${p.status==='LIVE'||p.status==='CURRENT'?'animation:pulse-dot 2s infinite;':''}`}></span>
                   {p.status}
                 </span>
@@ -96,58 +74,31 @@ const statusColor: Record<string,string> = {
                 <span style="font-size:12px;color:var(--text-muted);margin-left:auto;">{p.year}</span>
               </div>
 
-              {/* Title */}
-              <h3 style="font-family:var(--font-head);font-size:clamp(20px,2.5vw,28px);font-weight:700;color:var(--text);letter-spacing:-0.3px;margin:0 0 4px;line-height:1.2;">
-                {p.title}
-              </h3>
-              <p style="font-size:14px;color:var(--text-muted);font-weight:500;margin:0 0 22px;">{p.subtitle}</p>
+              <h3 style="font-family:var(--font-head);font-size:clamp(19px,2.5vw,26px);font-weight:700;color:var(--text);letter-spacing:-0.3px;margin:0 0 3px;line-height:1.2;">{p.title}</h3>
+              <p style="font-size:14px;color:var(--text-muted);font-weight:500;margin:0 0 20px;">{p.subtitle}</p>
 
-              {/* Case study — 3 col */}
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:20px;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-                {[
-                  ['⚙ Tech Challenge', p.techChallenge],
-                  ['📈 Outcome', p.businessOutcome],
-                  ['🔍 Code Quality', p.codeSignals],
-                ].map(([h, b]) => (
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:18px;padding:18px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+                {[['⚙ Tech Challenge',p.techChallenge],['📈 Outcome',p.businessOutcome],['🔍 Code Quality',p.codeSignals]].map(([h,b]) => (
                   <div>
-                    <div style={`font-size:10px;font-weight:800;color:${p.accent};letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;`}>{h}</div>
-                    <p style="font-size:13px;color:var(--text-mid);line-height:1.7;margin:0;">{b}</p>
+                    <div style={`font-size:10px;font-weight:800;color:${p.accent};letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;`}>{h}</div>
+                    <p style="font-size:13px;color:var(--text-mid);line-height:1.65;margin:0;">{b}</p>
                   </div>
                 ))}
               </div>
 
-              {/* Tags + links */}
-              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-                <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                  {p.tags.map(t => <span class="tag">{t}</span>)}
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                  {p.tags.map((t: string) => <span class="tag">{t}</span>)}
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                  {p.storeLink && (
-                    <a href={p.storeLink} target="_blank" rel="noopener" class="btn btn-primary" style="font-size:13px;padding:9px 18px;">
-                      {p.storeLinkLabel || 'View Live →'}
-                    </a>
-                  )}
-                  {p.githubLink && (
-                    <a href={p.githubLink} target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:8px 16px;">
-                      GitHub ↗
-                    </a>
-                  )}
+                  {p.storeLink && <a href={p.storeLink} target="_blank" rel="noopener" class="btn btn-primary" style="font-size:13px;padding:9px 16px;">{p.storeLinkLabel || 'View Live →'}</a>}
+                  {p.githubLink && <a href={p.githubLink} target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:8px 14px;">GitHub ↗</a>}
                 </div>
               </div>
-
             </div>
           </article>
         );
       })}
-    </div>
-
-    {/* Add more */}
-    <div class="reveal" style="margin-top:24px;border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:32px;text-align:center;">
-      <p style="font-size:15px;color:var(--text-muted);font-weight:600;margin:0 0 4px;">Add more projects or media</p>
-      <p style="font-size:13px;color:var(--text-muted);opacity:0.6;margin:0;">
-        <a href="/admin/#/collections/projects" style="color:var(--accent);font-weight:600;">/admin → Projects</a>
-        — create new entries or add clips to existing ones
-      </p>
     </div>
 
   </div>

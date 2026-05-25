@@ -1,63 +1,81 @@
 ---
 import MediaCarousel from './MediaCarousel.astro';
 
-// Load reel items from CMS-managed file
-const reelFile = await Astro.glob('../content/reel/reel.md');
-const reelItems = reelFile[0]?.frontmatter?.items ?? [];
-const sorted = [...reelItems].sort((a: any, b: any) => (a.order ?? 99) - (b.order ?? 99));
+const siteFiles = await Astro.glob('../content/site/reel.md');
+const s = siteFiles[0]?.frontmatter ?? {};
+const headline    = s.headline    ?? 'Technical highlights';
+const subheadline = s.subheadline ?? 'Live gameplay and system demos — the work that doesn\'t fit in a résumé.';
 
-// Separate featured (first item gets large slot) from rest
-const [featured, ...rest] = sorted;
+const reelFiles = await Astro.glob('../content/reel/reel.md');
+const reelItems: any[] = (reelFiles[0]?.frontmatter?.items ?? [])
+  .slice()
+  .sort((a: any, b: any) => (a.order ?? 99) - (b.order ?? 99));
+
+// Only items that actually have media
+const liveItems = reelItems.filter((item: any) =>
+  item.mediaSrc || item.cloudinaryVideo || item.youtubeId
+);
+
+const [featured, ...rest] = liveItems;
 ---
 
 <section id="reel" class="section-pad" style="background:var(--bg2);">
   <div class="container">
 
-    <div class="label reveal" style="margin-bottom:12px;">Showcase Reel</div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
-      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-0.8px;margin:0;">
-        Games in motion
+    <div class="label reveal" style="margin-bottom:10px;">Showcase Reel</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(22px,3vw,38px);font-weight:700;color:var(--text);letter-spacing:-0.6px;margin:0;">
+        {headline}
       </h2>
-      <p class="reveal" style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);max-width:380px;line-height:1.65;margin:0;">
-        What a PDF résumé can't show — actual shipped gameplay. Add clips via
-        <a href="/admin/#/collections/reel" style="color:var(--accent);font-weight:600;">/admin → Showcase Reel</a>.
+      <p class="reveal" style="font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.6;margin:0;">
+        {subheadline}
       </p>
     </div>
 
-    {/* Featured (large, full width) */}
-    {featured && (
-      <div class="reveal" style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:16px;">
-        <MediaCarousel
-          items={[featured]}
-          id="reel-featured"
-          aspectRatio="16/9"
-          showCaptions={true}
-        />
-      </div>
-    )}
-
-    {/* Rest grid */}
-    {rest.length > 0 && (
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
-        {rest.map((item: any, i: number) => (
-          <div class="reveal" style={`border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);animation-delay:${i*0.07}s`}>
+    {liveItems.length > 0 ? (
+      <>
+        {/* Featured — full width */}
+        {featured && (
+          <div class="reveal" style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:16px;">
             <MediaCarousel
-              items={[item]}
-              id={`reel-${i}`}
+              items={[featured]}
+              id="reel-featured"
               aspectRatio="16/9"
               showCaptions={true}
             />
           </div>
-        ))}
-      </div>
-    )}
+        )}
 
-    {/* Empty state */}
-    {sorted.length === 0 && (
-      <div style="border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:56px;text-align:center;">
-        <p style="font-size:15px;color:var(--text-muted);font-weight:600;margin:0 0 6px;">No reel items yet</p>
-        <p style="font-size:13px;color:var(--text-muted);opacity:0.6;margin:0;">
-          Add clips at <a href="/admin/#/collections/reel" style="color:var(--accent);">/admin → Showcase Reel</a>
+        {/* Rest — grid */}
+        {rest.length > 0 && (
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+            {rest.map((item: any, i: number) => (
+              <div class="reveal" style={`border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);animation-delay:${i*0.06}s`}>
+                <MediaCarousel
+                  items={[item]}
+                  id={`reel-${i}`}
+                  aspectRatio="16/9"
+                  showCaptions={true}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </>
+    ) : (
+      /* Empty state — shown only when no media uploaded yet */
+      <div style="
+        border-radius:var(--radius-lg);
+        background:var(--bg3);
+        border:2px dashed var(--border2);
+        padding:64px 32px;
+        text-align:center;
+      ">
+        <p style="font-size:15px;color:var(--text-muted);font-weight:600;margin:0 0 6px;">
+          Showcase clips coming soon
+        </p>
+        <p style="font-size:13px;color:var(--text-muted);opacity:0.5;margin:0;">
+          Gameplay videos and technical demos will appear here
         </p>
       </div>
     )}

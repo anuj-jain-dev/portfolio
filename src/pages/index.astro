@@ -18,7 +18,6 @@ const projects = projectFiles
   .map(f => ({ data: f.frontmatter, slug: f.file.split('/').pop()?.replace('.md','') ?? '' }))
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 ---
-
 <Base>
   <Nav />
   <main>
@@ -36,7 +35,6 @@ const projects = projectFiles
 </Base>
 
 <script>
-  // Scroll-reveal
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -44,6 +42,6 @@ const projects = projectFiles
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>

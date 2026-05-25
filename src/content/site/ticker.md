@@ -1,0 +1,29 @@
+---
+keywords:
+  - Unity
+  - C#
+  - Scriptable Objects
+  - Spine Animation
+  - Unity Timeline
+  - Object Pooling
+  - SmartFoxServer
+  - WebGL
+  - iOS
+  - Android
+  - Addressables
+  - IAP
+  - Unity Ads
+  - Casino Systems
+  - Slot Frameworks
+  - Puzzle Games
+  - Remote-First
+  - ECS Architecture
+  - Design Patterns
+  - Event-Driven Systems
+  - Cross-Platform
+  - Vibe Coding
+  - Claude AI
+  - AI-Assisted Dev
+  - Generative AI
+  - LLM Integration
+---

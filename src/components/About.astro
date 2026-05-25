@@ -1,45 +1,65 @@
 ---
+const files = await Astro.glob('../content/site/about.md');
+const a = files[0]?.frontmatter ?? {};
+const headline       = a.headline       ?? 'Systems thinker.';
+const headlineAccent = a.headlineAccent ?? 'Remote proven.';
+const paragraphs     = a.paragraphs     ?? [];
+const pullQuote      = a.pullQuote      ?? '';
+const tableRows      = a.tableRows      ?? [];
+
+const contactFiles = await Astro.glob('../content/site/contact.md');
+const email = contactFiles[0]?.frontmatter?.email ?? 'anuj132000@gmail.com';
+const linkedinUrl = contactFiles[0]?.frontmatter?.linkedinUrl ?? '#';
+const githubUrl   = contactFiles[0]?.frontmatter?.githubUrl   ?? '#';
+
+function boldify(text: string, boldWords: string): string {
+  if (!boldWords) return text;
+  const words = boldWords.split(',').map((w: string) => w.trim()).filter(Boolean);
+  let result = text;
+  words.forEach((word: string) => {
+    result = result.replace(
+      new RegExp(`(${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g'),
+      `<strong style="color:var(--text)">$1</strong>`
+    );
+  });
+  return result;
+}
 ---
+
 <section id="about" class="section-pad" style="background:var(--bg2);">
   <div class="container">
-    <div class="label reveal" style="margin-bottom:36px;">About</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(36px,5vw,72px);align-items:start;">
+    <div class="label reveal" style="margin-bottom:28px;">About</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,64px);align-items:start;">
 
       <div class="reveal">
-        <h2 style="font-family:var(--font-head);font-size:clamp(26px,3.5vw,40px);font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-0.8px;margin:0 0 24px;">
-          Systems thinker.<br />
-          <span style="color:var(--accent);">Remote proven.</span>
+        <h2 style="font-family:var(--font-head);font-size:clamp(24px,3.2vw,38px);font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-0.6px;margin:0 0 20px;">
+          {headline}<br /><span style="color:var(--accent);">{headlineAccent}</span>
         </h2>
-        <p style="font-size:15px;color:var(--text-mid);line-height:1.8;margin:0 0 16px;">
-          Senior Unity Developer building scalable game systems for studios across Europe and Asia. I work where clean architecture meets production deadlines.
-        </p>
-        <p style="font-size:15px;color:var(--text-mid);line-height:1.8;margin:0 0 16px;">
-          Currently at <strong style="color:var(--text);">UROC Studios</strong> (Isle of Man), evolving the slot framework powering multiple live titles — fully remote. Previously led development at <strong style="color:var(--text);">Phonato Studios</strong> (Dubai) and shipped a solo game on Google Play end-to-end.
-        </p>
-        <div style="padding:16px 20px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;margin-bottom:24px;">
-          <p style="font-size:15px;color:var(--text-mid);font-style:italic;line-height:1.6;margin:0;">
-            "I don't just write code — I build the systems that let teams move faster."
+
+        {paragraphs.map((p: any) => (
+          <p style="font-size:15px;color:var(--text-mid);line-height:1.8;margin:0 0 14px;"
+            set:html={boldify(p.text, p.boldWords ?? '')}>
           </p>
-        </div>
+        ))}
+
+        {pullQuote && (
+          <div style="padding:14px 18px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;margin:20px 0 22px;">
+            <p style="font-size:15px;color:var(--text-mid);font-style:italic;line-height:1.6;margin:0;">"{pullQuote}"</p>
+          </div>
+        )}
+
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="mailto:anuj132000@gmail.com" class="btn btn-primary" style="font-size:13px;padding:10px 20px;">✉ Get in touch</a>
-          <a href="https://www.linkedin.com/in/anuj-jain-gamesdev" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:9px 18px;">LinkedIn ↗</a>
-          <a href="https://github.com/anuj-jain-13" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:9px 18px;">GitHub ↗</a>
+          <a href={`mailto:${email}`} class="btn btn-primary" style="font-size:13px;padding:10px 20px;">✉ Get in touch</a>
+          <a href={linkedinUrl} target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:9px 16px;">LinkedIn ↗</a>
+          <a href={githubUrl}   target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:9px 16px;">GitHub ↗</a>
         </div>
       </div>
 
-      <div class="reveal" style="animation-delay:0.12s;">
-        {[
-          ['Current Role','Senior Unity Dev @ UROC Studios'],
-          ['Location','India · Remote-first'],
-          ['Available for','Full-time · Contract · Freelance'],
-          ['Specialisation','Casino · Mobile · WebGL'],
-          ['Platforms','iOS · Android · WebGL'],
-          ['Tools','Git · Jira · Spine · Trello'],
-        ].map(([k,v]) => (
-          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--border);gap:16px;flex-wrap:wrap;">
-            <span style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;">{k}</span>
-            <span style="font-size:14px;color:var(--text-mid);text-align:right;">{v}</span>
+      <div class="reveal" style="animation-delay:0.1s;">
+        {tableRows.map((row: any) => (
+          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--border);gap:16px;flex-wrap:wrap;">
+            <span style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;">{row.key}</span>
+            <span style="font-size:14px;color:var(--text-mid);text-align:right;">{row.value}</span>
           </div>
         ))}
       </div>

@@ -3,7 +3,7 @@ backend:
   branch: main
 
 site_url: https://anuj-jain-dev.netlify.app
-local_backend: false
+local_backend: true
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
@@ -11,16 +11,134 @@ public_folder: "/images/uploads"
 media_library:
   name: cloudinary
   config:
-    cloud_name: "dcbzgebuv"
-    api_key: "898847298844218"
+    cloud_name: YOUR_CLOUD_NAME
+    api_key: YOUR_API_KEY
 
 collections:
 
+  # ── SITE CONTENT ─────────────────────────────────────────────────────────
+  - name: "site"
+    label: "Site Content"
+    files:
+
+      - name: "hero"
+        label: "Hero Section"
+        file: "src/content/site/hero.md"
+        fields:
+          - { label: "Your Name", name: "name", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string", hint: "Main sentence under your name" }
+          - { label: "Sub-tagline", name: "subTagline", widget: "string", hint: "Second sentence" }
+          - { label: "Keywords (under name)", name: "keywords", widget: "list", hint: "e.g. Senior Unity Developer, Mobile, WebGL, Remote" }
+          - { label: "Available Badge Text", name: "availableBadge", widget: "string" }
+          - { label: "Primary CTA Label", name: "ctaPrimary", widget: "string" }
+          - { label: "Secondary CTA Label", name: "ctaSecondary", widget: "string" }
+
+      - name: "ticker"
+        label: "Skills Ticker (scrolling bar)"
+        file: "src/content/site/ticker.md"
+        fields:
+          - label: "Keywords"
+            name: "keywords"
+            widget: "list"
+            hint: "All keywords shown in the scrolling ticker strip. Add, remove, reorder freely."
+
+      - name: "about"
+        label: "About Section"
+        file: "src/content/site/about.md"
+        fields:
+          - { label: "Headline", name: "headline", widget: "string" }
+          - { label: "Headline Accent (blue)", name: "headlineAccent", widget: "string" }
+          - label: "Paragraphs"
+            name: "paragraphs"
+            widget: "list"
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "Paragraph Text", name: "text", widget: "text" }
+              - { label: "Bold Keywords (comma separated)", name: "boldWords", widget: "string", required: false, hint: "e.g. UROC Studios,Phonato Studios" }
+          - { label: "Pull Quote", name: "pullQuote", widget: "string" }
+          - label: "Info Table Rows"
+            name: "tableRows"
+            widget: "list"
+            summary: "{{fields.key}}: {{fields.value}}"
+            fields:
+              - { label: "Label", name: "key", widget: "string" }
+              - { label: "Value", name: "value", widget: "string" }
+
+      - name: "skills"
+        label: "Skills & Stack Section"
+        file: "src/content/site/skills.md"
+        fields:
+          - { label: "Section Headline", name: "headline", widget: "string" }
+          - label: "Skill Groups"
+            name: "groups"
+            widget: "list"
+            summary: "{{fields.order}}. {{fields.group}}"
+            hint: "Drag to reorder. Lower order number = appears first."
+            fields:
+              - { label: "Group Name", name: "group", widget: "string" }
+              - { label: "Order (1 = first)", name: "order", widget: "number", default: 99 }
+              - { label: "Skills", name: "items", widget: "list", hint: "One skill per line" }
+
+      - name: "reel"
+        label: "Showcase Reel Section"
+        file: "src/content/site/reel.md"
+        fields:
+          - { label: "Section Headline", name: "headline", widget: "string" }
+          - { label: "Section Subheadline", name: "subheadline", widget: "string" }
+
+      - name: "aiwork"
+        label: "AI Experiments Section"
+        file: "src/content/site/aiwork.md"
+        fields:
+          - { label: "Section Headline", name: "headline", widget: "string" }
+          - { label: "Section Subheadline", name: "subheadline", widget: "string" }
+          - label: "Cards"
+            name: "cards"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Icon (emoji)", name: "icon", widget: "string" }
+              - { label: "Status Badge", name: "status", widget: "string", hint: "e.g. Active, Exploring, Ongoing" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Body", name: "body", widget: "text" }
+              - { label: "Tags", name: "tags", widget: "list" }
+          - { label: "Bottom Note", name: "note", widget: "text" }
+
+      - name: "whyme"
+        label: "Why Hire Me Section"
+        file: "src/content/site/whyme.md"
+        fields:
+          - { label: "Section Headline", name: "headline", widget: "string" }
+          - { label: "Section Subheadline", name: "subheadline", widget: "string" }
+          - { label: "Pull Quote", name: "pullQuote", widget: "string" }
+          - { label: "Pull Quote Sub-text", name: "pullQuoteSub", widget: "string" }
+          - label: "Cards"
+            name: "cards"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Icon (emoji)", name: "icon", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Body", name: "body", widget: "text" }
+              - { label: "Proof Point", name: "proof", widget: "string", hint: "Short verifiable claim shown as a badge" }
+
+      - name: "contact"
+        label: "Contact Section"
+        file: "src/content/site/contact.md"
+        fields:
+          - { label: "Headline", name: "headline", widget: "string" }
+          - { label: "Headline Accent (blue)", name: "headlineAccent", widget: "string" }
+          - { label: "Body Text", name: "body", widget: "text" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "LinkedIn URL", name: "linkedinUrl", widget: "string" }
+          - { label: "LinkedIn Label", name: "linkedinLabel", widget: "string" }
+          - { label: "GitHub URL", name: "githubUrl", widget: "string" }
+          - { label: "GitHub Label", name: "githubLabel", widget: "string" }
+          - { label: "Location Note", name: "locationNote", widget: "string" }
+
   # ── SHOWCASE REEL ─────────────────────────────────────────────────────────
-  # Independent from Projects. Add any video/GIF here — gameplay clips,
-  # dev process recordings, anything you want displayed in the visual reel.
   - name: "reel"
-    label: "Showcase Reel"
+    label: "Showcase Reel Media"
     label_singular: "Reel Item"
     files:
       - name: "reel"
@@ -32,8 +150,8 @@ collections:
             widget: "list"
             summary: "{{fields.title}}"
             fields:
-              - { label: "Title", name: "title", widget: "string", hint: "e.g. PuzzleMania Gameplay" }
-              - { label: "Caption", name: "caption", widget: "string", hint: "One line shown below the media" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Caption", name: "caption", widget: "string" }
               - label: "Media Type"
                 name: "mediaType"
                 widget: "select"
@@ -42,31 +160,10 @@ collections:
                   - { label: "GIF / Image", value: "image" }
                   - { label: "YouTube", value: "youtube" }
                 default: "video"
-              - label: "GIF or Image File"
-                name: "mediaSrc"
-                widget: "image"
-                required: false
-                hint: "Upload a GIF or screenshot directly"
-              - label: "Cloudinary MP4 URL"
-                name: "cloudinaryVideo"
-                widget: "string"
-                required: false
-                hint: "Paste the full .mp4 URL from your Cloudinary dashboard"
-              - label: "YouTube Video ID"
-                name: "youtubeId"
-                widget: "string"
-                required: false
-                hint: "Just the ID from youtube.com/watch?v=THIS_PART"
-              - label: "Project Link (optional)"
-                name: "projectLink"
-                widget: "string"
-                required: false
-                hint: "Play Store, App Store, or website URL"
-              - label: "Sort Order"
-                name: "order"
-                widget: "number"
-                default: 99
-                hint: "Lower = appears first"
+              - { label: "GIF or Image File", name: "mediaSrc", widget: "image", required: false }
+              - { label: "Cloudinary MP4 URL", name: "cloudinaryVideo", widget: "string", required: false }
+              - { label: "YouTube Video ID", name: "youtubeId", widget: "string", required: false }
+              - { label: "Sort Order", name: "order", widget: "number", default: 99 }
 
   # ── PROJECTS ──────────────────────────────────────────────────────────────
   - name: "projects"
@@ -78,29 +175,25 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Subtitle", name: "subtitle", widget: "string", hint: "e.g. Solo Mobile Game · Android" }
+      - { label: "Subtitle", name: "subtitle", widget: "string" }
       - label: "Status"
         name: "status"
         widget: "select"
         options: ["LIVE", "CURRENT", "SHIPPED", "WIP"]
         default: "SHIPPED"
-      - { label: "Platform", name: "platform", widget: "string", hint: "e.g. iOS · Android · WebGL" }
+      - { label: "Platform", name: "platform", widget: "string" }
       - { label: "Studio / Type", name: "studio", widget: "string" }
-      - { label: "Year", name: "year", widget: "string", hint: "e.g. 2022–2024" }
-      - { label: "Sort Order", name: "order", widget: "number", default: 99, hint: "Lower = appears first" }
+      - { label: "Year", name: "year", widget: "string" }
+      - { label: "Sort Order", name: "order", widget: "number", default: 99 }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
-
-      # ── MULTIPLE MEDIA ───────────────────────────────────────────────────
-      # Add as many GIFs, MP4s, or YouTube clips as you want per project.
-      # They will display as a scrollable carousel in the Projects section.
       - label: "Media Gallery"
         name: "mediaItems"
         widget: "list"
         required: false
         summary: "{{fields.label}}"
-        hint: "Add multiple videos/GIFs for this project — they appear as a carousel"
+        hint: "Add multiple videos or GIFs — they appear as a swipeable carousel"
         fields:
-          - { label: "Label", name: "label", widget: "string", hint: "e.g. Gameplay, Main Menu, Boss Fight" }
+          - { label: "Label", name: "label", widget: "string" }
           - label: "Media Type"
             name: "type"
             widget: "select"
@@ -109,20 +202,9 @@ collections:
               - { label: "GIF / Image", value: "image" }
               - { label: "YouTube", value: "youtube" }
             default: "video"
-          - label: "GIF or Image File"
-            name: "src"
-            widget: "image"
-            required: false
-          - label: "Cloudinary MP4 URL"
-            name: "cloudinaryUrl"
-            widget: "string"
-            required: false
-            hint: "Full .mp4 URL from Cloudinary"
-          - label: "YouTube Video ID"
-            name: "youtubeId"
-            widget: "string"
-            required: false
-
+          - { label: "GIF or Image File", name: "src", widget: "image", required: false }
+          - { label: "Cloudinary MP4 URL", name: "cloudinaryUrl", widget: "string", required: false }
+          - { label: "YouTube Video ID", name: "youtubeId", widget: "string", required: false }
       - { label: "Store / Live Link", name: "storeLink", widget: "string", required: false }
       - { label: "Store Link Label", name: "storeLinkLabel", widget: "string", required: false, default: "View Live →" }
       - { label: "GitHub Repo", name: "githubLink", widget: "string", required: false }

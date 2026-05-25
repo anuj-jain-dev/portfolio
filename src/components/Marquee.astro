@@ -1,18 +1,14 @@
 ---
-const items = [
+const files = await Astro.glob('../content/site/ticker.md');
+const keywords: string[] = files[0]?.frontmatter?.keywords ?? [
   'Unity','C#','Scriptable Objects','Spine Animation','Unity Timeline',
-  'Object Pooling','SmartFoxServer','WebGL','iOS','Android',
-  'Addressables','IAP','Unity Ads','Casino Systems','Slot Frameworks',
-  'Puzzle Games','Remote-First','MVC Architecture','Design Patterns',
-  'Event-Driven Systems','Cross-Platform','Git','Jira',
-  'Google Play','App Store','Vibe Coding','Claude AI',
-  'AI-Assisted Dev','Generative AI','LLM Integration'
+  'Object Pooling','WebGL','iOS','Android','Vibe Coding','Claude AI','Remote-First'
 ];
-const doubled = [...items, ...items];
+const doubled = [...keywords, ...keywords];
 ---
 <div class="marquee-wrap">
   <div class="marquee-track">
-    {doubled.map((item, i) => (
+    {doubled.map((item: string) => (
       <>
         <span class="marquee-item">{item}</span>
         <span class="marquee-sep">✦</span>

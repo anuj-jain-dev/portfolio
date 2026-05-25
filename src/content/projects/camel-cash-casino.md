@@ -1,29 +1,54 @@
 ---
-title: "Camel Cash Casino"
-subtitle: "Lead Developer · Cross-Platform Social Casino"
-status: "LIVE"
-platform: "iOS · Android · WebGL"
-studio: "Phonato Studios"
-year: "2020–2023"
-order: 2
+title: Camel Cash Casino
+subtitle: Lead Developer · Cross-Platform Social Casino
+status: LIVE
+platform: iOS · Android · WebGL
+studio: Phonato Studios
+year: 2020–2023
+order: 3
 featured: true
 mediaItems:
-  - label: "Gameplay"
-    type: "image"
+  - type: video
+    label: Slot with Bingo
+    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779712656/Kitty_h6ze4n.mp4
+  - label: Diner
+    type: video
     src: ""
-    cloudinaryUrl: ""
+    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779709469/CCC_1_pehcsl.mp4
     youtubeId: ""
-  - label: "Bonus Round"
-    type: "image"
+  - label: Bonus Quest
+    type: video
     src: ""
-    cloudinaryUrl: ""
+    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779709470/CCC_2_uhtzub.mp4
     youtubeId: ""
-storeLink: "https://www.camelcashgame.com"
-storeLinkLabel: "View Live →"
+  - type: video
+    label: Mystery Wild Slot
+    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779710807/MystryWild_gcjo60.mp4
+storeLink: https://www.camelcashgame.com
+storeLinkLabel: View Live →
 githubLink: ""
-techChallenge: "Led design of a modular slot framework — server-delivered paytables, zero hardcoded game logic. Every reel config, bonus mechanic, and win presentation is data-configured."
-businessOutcome: "Live across iOS, Android, and WebGL simultaneously. As Lead Developer, owned sprint planning, code reviews, and the cross-platform build pipeline. Framework adopted as the studio foundation for subsequent titles."
-codeSignals: "Observer pattern for win events. Command pattern for spin/stop. Shared C# codebase with platform shim layers. Unity Addressables for WebGL asset streaming — initial load under 3s."
-tags: ["Unity", "C#", "iOS", "Android", "WebGL", "Addressables", "Lead Dev"]
+techChallenge: Full-scale social casino app with multiple modules — slots, mini
+  games, and a suite of engagement features including Bonuses, Missions,
+  Challenges, Leagues, and Albums. Built a common animation framework supporting
+  GAF, Spine, and Unity Timeline across all modules, enabling artists and
+  developers to work with any animation system through a unified interface.
+  Unity Asset Bundles for asset streaming.
+businessOutcome: Live across iOS, Android, and WebGL simultaneously. Contributed
+  across the full product — multiple slot machines, mini games, and all major
+  engagement systems. The shared animation framework became the studio standard,
+  adopted across the entire app — initial load under 3s.
+codeSignals: Unified animation abstraction layer wrapping GAF, Spine, and Unity
+  Timeline behind a common interface — zero animation-system-specific code in
+  game logic. Observer pattern for event-driven feature systems (Missions,
+  Challenges, Leagues). Modular architecture allowing independent development of
+  each casino module without cross-dependencies.
+tags:
+  - Unity
+  - C#
+  - iOS
+  - Android
+  - WebGL
+  - Spine
+  - Asset Bundles
 accent: "#b45309"
 ---

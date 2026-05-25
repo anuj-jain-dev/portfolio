@@ -1,69 +1,81 @@
 ---
+const files = await Astro.glob('../content/site/hero.md');
+const h = files[0]?.frontmatter ?? {};
+const name        = h.name         ?? 'Anuj Jain';
+const tagline     = h.tagline      ?? 'I build game systems that scale.';
+const subTagline  = h.subTagline   ?? '';
+const keywords    = h.keywords     ?? ['Senior Unity Developer','Mobile','WebGL','Remote'];
+const badge       = h.availableBadge ?? 'Available for Remote Roles';
+const ctaPrimary  = h.ctaPrimary   ?? 'View My Work';
+const ctaSecondary= h.ctaSecondary ?? 'Get in touch';
 ---
+
 <section id="hero" style="
-  min-height: 100vh;
-  display: flex; align-items: center;
-  padding: 100px clamp(18px,5vw,64px) 60px;
+  padding: 80px clamp(18px,5vw,64px) 0;
   background: var(--bg);
   position: relative; overflow: hidden;
 ">
-  <!-- Subtle dot grid -->
+  <!-- Dot grid -->
   <div style="
     position:absolute;inset:0;pointer-events:none;
-    background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px);
     background-size: 28px 28px;
     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
   "></div>
 
-  <div class="container" style="position:relative;width:100%;">
-    <div style="max-width:780px;">
+  <div class="container" style="position:relative;">
 
-      <!-- Status badge -->
-      <div style="margin-bottom:24px;opacity:0;animation:fadeUp 0.6s 0.1s both;">
-        <span style="
-          display:inline-flex;align-items:center;gap:8px;
-          background:var(--green-bg);border:1px solid rgba(22,163,74,0.25);
-          border-radius:100px;padding:6px 14px;
-        ">
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite;display:inline-block;"></span>
-          <span style="font-size:12px;font-weight:700;color:var(--green);letter-spacing:0.1em;">AVAILABLE FOR REMOTE ROLES</span>
-        </span>
-      </div>
-
-      <!-- Name — calibrated size, not overwhelming -->
-      <h1 style="
-        font-family:var(--font-head);font-weight:700;
-        font-size:clamp(36px,5.5vw,64px);
-        letter-spacing:-1.5px;line-height:1.1;
-        color:var(--text);margin:0 0 10px;
-        opacity:0;animation:fadeUp 0.65s 0.2s both;
-      ">Anuj Jain</h1>
-
-      <!-- Title line -->
-      <p style="
-        font-family:var(--font-body);font-size:clamp(15px,2vw,19px);
-        color:var(--accent);font-weight:600;
-        margin:0 0 20px;letter-spacing:0.02em;
-        opacity:0;animation:fadeUp 0.65s 0.3s both;
-      ">Senior Unity Developer &nbsp;·&nbsp; Mobile &nbsp;·&nbsp; WebGL &nbsp;·&nbsp; Remote</p>
-
-      <!-- Tagline -->
-      <p style="
-        font-family:var(--font-body);font-size:clamp(16px,1.8vw,20px);
-        color:var(--text-mid);line-height:1.65;max-width:600px;
-        margin:0 0 36px;font-weight:400;
-        opacity:0;animation:fadeUp 0.65s 0.4s both;
+    <!-- Badge -->
+    <div style="margin-bottom:20px;opacity:0;animation:fadeUp 0.6s 0.1s both;">
+      <span style="
+        display:inline-flex;align-items:center;gap:8px;
+        background:var(--green-bg);border:1px solid rgba(22,163,74,0.25);
+        border-radius:100px;padding:5px 13px;
       ">
-        I build game systems that scale — across titles, teams, and time zones.
-        Slot frameworks, mobile games, WebGL — shipped and live.
-      </p>
-
-      <!-- CTAs -->
-      <div style="display:flex;gap:10px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.65s 0.5s both;">
-        <button class="btn btn-primary" onclick="smoothGo('#reel')">View My Work ↓</button>
-        <a href="mailto:anuj132000@gmail.com" class="btn btn-outline">Get in touch</a>
-      </div>
-
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite;display:inline-block;flex-shrink:0;"></span>
+        <span style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.1em;">{badge.toUpperCase()}</span>
+      </span>
     </div>
+
+    <!-- Name -->
+    <h1 style="
+      font-family:var(--font-head);font-weight:700;
+      font-size:clamp(32px,5vw,58px);
+      letter-spacing:-1px;line-height:1.1;
+      color:var(--text);margin:0 0 8px;
+      opacity:0;animation:fadeUp 0.65s 0.2s both;
+    ">{name}</h1>
+
+    <!-- Keywords row -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;opacity:0;animation:fadeUp 0.65s 0.3s both;">
+      {keywords.map((kw: string, i: number) => (
+        <span style={`font-family:var(--font-body);font-size:clamp(13px,1.8vw,16px);color:var(--accent);font-weight:600;${i < keywords.length - 1 ? "display:flex;align-items:center;gap:6px;" : ""}`}>
+          {kw}{i < keywords.length - 1 ? <span style="color:var(--border2);margin-left:6px;">·</span> : ''}
+        </span>
+      ))}
+    </div>
+
+    <!-- Tagline -->
+    <p style="
+      font-size:clamp(15px,1.8vw,19px);
+      color:var(--text-mid);line-height:1.65;max-width:580px;
+      margin:0 0 6px;font-weight:400;
+      opacity:0;animation:fadeUp 0.65s 0.38s both;
+    ">{tagline}</p>
+    {subTagline && (
+      <p style="
+        font-size:clamp(13px,1.5vw,16px);
+        color:var(--text-muted);line-height:1.6;max-width:520px;
+        margin:0 0 28px;
+        opacity:0;animation:fadeUp 0.65s 0.44s both;
+      ">{subTagline}</p>
+    )}
+
+    <!-- CTAs -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0;opacity:0;animation:fadeUp 0.65s 0.52s both;">
+      <button class="btn btn-primary" onclick="smoothGo('#reel')">{ctaPrimary} ↓</button>
+      <a href={`mailto:${(await Astro.glob('../content/site/contact.md'))[0]?.frontmatter?.email ?? 'anuj132000@gmail.com'}`} class="btn btn-outline">{ctaSecondary}</a>
+    </div>
+
   </div>
 </section>

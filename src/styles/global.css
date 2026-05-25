@@ -278,3 +278,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @media (min-width: 769px) {
   .hamburger { display: none !important; }
 }
+
+/* ── HERO MOBILE FIX ───────────────────────────────────────────────────── */
+/* On mobile the hero should be compact — content only, no forced full-screen */
+#hero {
+  padding-bottom: 40px;
+}
+@media (min-width: 769px) {
+  #hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    padding-bottom: 60px;
+  }
+}

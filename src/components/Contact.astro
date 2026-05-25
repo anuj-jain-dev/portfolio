@@ -1,26 +1,31 @@
 ---
+const files = await Astro.glob('../content/site/contact.md');
+const c = files[0]?.frontmatter ?? {};
+const headline       = c.headline       ?? "Let's build";
+const headlineAccent = c.headlineAccent ?? 'something great.';
+const body           = c.body           ?? '';
+const email          = c.email          ?? 'anuj132000@gmail.com';
+const linkedinUrl    = c.linkedinUrl    ?? '#';
+const linkedinLabel  = c.linkedinLabel  ?? 'LinkedIn';
+const githubUrl      = c.githubUrl      ?? '#';
+const githubLabel    = c.githubLabel    ?? 'GitHub';
+const locationNote   = c.locationNote   ?? '';
 ---
 <section id="contact" class="section-pad" style="background:var(--bg2);">
   <div class="container">
-    <div style="max-width:640px;">
-      <div class="label reveal" style="margin-bottom:28px;">Contact</div>
-      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(30px,5vw,56px);font-weight:700;color:var(--text);letter-spacing:-1.5px;line-height:1.05;margin:0 0 20px;">
-        Let's build<br />something great.
+    <div style="max-width:600px;">
+      <div class="label reveal" style="margin-bottom:24px;">Contact</div>
+      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(28px,5vw,52px);font-weight:700;color:var(--text);letter-spacing:-1.5px;line-height:1.05;margin:0 0 16px;">
+        {headline}<br /><span style="color:var(--accent);">{headlineAccent}</span>
       </h2>
-      <p class="reveal" style="font-size:15px;color:var(--text-mid);line-height:1.8;max-width:440px;margin:0 0 36px;">
-        Studio hiring for a senior Unity role? Need a reliable remote contractor? Currently available — reach out directly.
-      </p>
-      <div class="reveal" style="display:flex;flex-direction:column;align-items:flex-start;gap:12px;">
-        <a href="mailto:anuj132000@gmail.com" class="btn btn-primary" style="font-size:15px;padding:14px 28px;">
-          ✉ anuj132000@gmail.com
-        </a>
+      {body && <p class="reveal" style="font-size:15px;color:var(--text-mid);line-height:1.8;max-width:440px;margin:0 0 32px;">{body}</p>}
+      <div class="reveal" style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;">
+        <a href={`mailto:${email}`} class="btn btn-primary" style="font-size:15px;padding:13px 26px;">✉ {email}</a>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
-          <a href="https://www.linkedin.com/in/anuj-jain-gamesdev" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:10px 18px;">💼 LinkedIn</a>
-          <a href="https://github.com/anuj-jain-13" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:10px 18px;">🐙 GitHub</a>
+          <a href={linkedinUrl} target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:10px 18px;">💼 {linkedinLabel}</a>
+          <a href={githubUrl}   target="_blank" rel="noopener" class="btn btn-outline" style="font-size:13px;padding:10px 18px;">🐙 {githubLabel}</a>
         </div>
-        <p style="font-size:12px;color:var(--text-muted);margin-top:16px;letter-spacing:0.08em;">
-          📍 INDIA · REMOTE-FIRST · AVAILABLE GLOBALLY
-        </p>
+        {locationNote && <p style="font-size:12px;color:var(--text-muted);margin-top:14px;letter-spacing:0.06em;">📍 {locationNote.toUpperCase()}</p>}
       </div>
     </div>
   </div>

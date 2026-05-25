@@ -1,81 +1,43 @@
 ---
-const items = [
-  {
-    icon: '⚙️',
-    title: 'Frameworks, not features',
-    body: "The slot framework I built at Phonato was adopted across multiple subsequent titles. At UROC, I\'m doing it again — the same core, powering different games. You don\'t just get the feature, you get the architecture that makes the next feature take half the time.",
-    proof: 'Framework reused across 3+ live titles'
-  },
-  {
-    icon: '🌍',
-    title: 'Genuinely remote-native',
-    body: "Isle of Man, Dubai, India — all from one desk. I live in async: over-documented PRs, written decision logs, proactive blockers flagged before standup. Your team won\'t need to babysit me across time zones. I run my own loop.",
-    proof: 'Multi-year remote record across Europe & Asia'
-  },
-  {
-    icon: '📦',
-    title: 'Full lifecycle, solo-proven',
-    body: "PuzzleMania: one developer, one shipped app, live on Google Play. I handled architecture, monetisation, Play Console, release pipeline, and live ops. I understand what happens downstream from code because I\'ve been downstream.",
-    proof: 'Solo shipped live Android game'
-  },
-  {
-    icon: '🔍',
-    title: 'Code others can inherit',
-    body: "I\'ve inherited messy codebases. I\'ve been the one called in to untangle them. That experience changed how I write: event-driven, pattern-consistent, ScriptableObject-driven configs. I write for the developer who comes after me.",
-    proof: 'MVC · Observer · Command · ScriptableObjects'
-  },
-  {
-    icon: '📱',
-    title: 'Cross-platform is second nature',
-    body: "iOS, Android, WebGL — same codebase, platform-specific shim layers, Addressables for WebGL load budgets. I\'ve shipped Camel Cash Casino across all three simultaneously. Platform risk is something I\'ve already solved.",
-    proof: 'iOS + Android + WebGL from shared C# codebase'
-  },
-  {
-    icon: '🤖',
-    title: 'AI-accelerated, not AI-replaced',
-    body: "I actively use Claude AI and LLM tooling in my workflow — not to write code for me, but to prototype faster, document better, and bring that velocity to your team. A senior dev who ships with AI tools is a force multiplier.",
-    proof: 'Vibe coding · Claude AI · LLM integration'
-  },
-];
+const files = await Astro.glob('../content/site/whyme.md');
+const w = files[0]?.frontmatter ?? {};
+const headline     = w.headline     ?? 'What you actually care about';
+const subheadline  = w.subheadline  ?? '';
+const pullQuote    = w.pullQuote    ?? '';
+const pullQuoteSub = w.pullQuoteSub ?? '';
+const cards        = w.cards        ?? [];
 ---
 <section id="why-me" class="section-pad" style="background:var(--bg);">
   <div class="container">
-
-    <div class="label reveal" style="margin-bottom:12px;">Why Hire Me</div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:40px;">
-      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-0.8px;margin:0;">
-        What you actually care about
-      </h2>
-      <p class="reveal" style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.65;margin:0;">
-        Not buzzwords. Specific, verifiable things that matter to a senior remote hire decision.
-      </p>
+    <div class="label reveal" style="margin-bottom:10px;">Why Hire Me</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:32px;">
+      <h2 class="reveal" style="font-family:var(--font-head);font-size:clamp(22px,3vw,38px);font-weight:700;color:var(--text);letter-spacing:-0.6px;margin:0;">{headline}</h2>
+      {subheadline && <p class="reveal" style="font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.6;margin:0;">{subheadline}</p>}
     </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
-      {items.map((w, i) => (
-        <div class="why-card reveal" style={`animation-delay:${i*0.07}s`}>
-          <div style="font-size:24px;margin-bottom:14px;">{w.icon}</div>
-          <h3 style="font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--text);margin:0 0 10px;line-height:1.3;">{w.title}</h3>
-          <p style="font-size:14px;color:var(--text-mid);line-height:1.75;margin:0 0 16px;">{w.body}</p>
-          <div style="display:inline-flex;align-items:center;gap:6px;background:var(--accent-bg);border:1px solid rgba(26,86,219,0.15);border-radius:100px;padding:4px 12px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+      {cards.map((card: any, i: number) => (
+        <div class="why-card reveal" style={`animation-delay:${i*0.06}s`}>
+          <div style="font-size:22px;margin-bottom:12px;">{card.icon}</div>
+          <h3 style="font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--text);margin:0 0 9px;line-height:1.3;">{card.title}</h3>
+          <p style="font-size:13px;color:var(--text-mid);line-height:1.75;margin:0 0 14px;">{card.body}</p>
+          <div style="display:inline-flex;align-items:center;gap:5px;background:var(--accent-bg);border:1px solid rgba(26,86,219,0.15);border-radius:100px;padding:3px 10px;">
             <span style="width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;flex-shrink:0;"></span>
-            <span style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.04em;">{w.proof}</span>
+            <span style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.03em;">{card.proof}</span>
           </div>
         </div>
       ))}
     </div>
-
-    <!-- CTA strip -->
-    <div class="reveal" style="margin-top:24px;padding:28px 32px;background:var(--text);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
-      <p style="font-family:var(--font-body);font-size:16px;color:rgba(255,255,255,0.75);line-height:1.5;margin:0;max-width:540px;">
-        <strong style="color:#fff;">"I write code other developers thank me for six months later."</strong>
-        <br>Currently available — let\'s find out if we\'re a fit.
-      </p>
-      <button class="btn" onclick="smoothGo('#contact')"
-        style="background:#fff;color:var(--text);padding:12px 24px;font-size:14px;border-radius:var(--radius);font-weight:700;">
-        Get in touch →
-      </button>
-    </div>
-
+    {pullQuote && (
+      <div class="reveal" style="margin-top:20px;padding:24px 28px;background:var(--text);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <p style="font-size:16px;color:#fff;font-weight:700;margin:0 0 4px;line-height:1.4;">"{pullQuote}"</p>
+          {pullQuoteSub && <p style="font-size:13px;color:rgba(255,255,255,0.5);margin:0;">{pullQuoteSub}</p>}
+        </div>
+        <button class="btn" onclick="smoothGo('#contact')"
+          style="background:#fff;color:var(--text);padding:11px 22px;font-size:14px;border-radius:var(--radius);font-weight:700;flex-shrink:0;">
+          Get in touch →
+        </button>
+      </div>
+    )}
   </div>
 </section>
