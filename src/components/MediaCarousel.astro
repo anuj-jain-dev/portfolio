@@ -1,37 +1,36 @@
 ---
-// MediaCarousel.astro
-// Accepts an array of mediaItems and renders a swipeable carousel.
-// Works for both Reel items and Project gallery items.
 interface MediaItem {
   label?: string;
-  type: string;       // "video" | "image" | "youtube"
-  src?: string;       // for image/gif
+  type: string;
+  src?: string;
   cloudinaryUrl?: string;
   youtubeId?: string;
-  // reel-specific
   mediaSrc?: string;
   cloudinaryVideo?: string;
   caption?: string;
   projectLink?: string;
   title?: string;
+  fit?: string; // "cover" | "contain" — defaults to "contain"
 }
 interface Props {
   items: MediaItem[];
-  id: string;           // unique ID for this carousel instance
-  aspectRatio?: string; // default "16/9"
+  id: string;
+  aspectRatio?: string;
   showCaptions?: boolean;
 }
 const { items, id, aspectRatio = "16/9", showCaptions = false } = Astro.props;
 
-// Normalise field names (reel uses different keys than projects)
 const normalised = items.map(item => ({
-  label:    item.label ?? item.title ?? '',
-  type:     item.type ?? item.mediaType ?? 'image',
-  src:      item.src || item.mediaSrc || '',
+  label:    item.label    ?? item.title   ?? '',
+  type:     item.type     ?? item.mediaType ?? 'image',
+  src:      item.src      || item.mediaSrc  || '',
   videoUrl: item.cloudinaryUrl || item.cloudinaryVideo || '',
   youtubeId:item.youtubeId ?? '',
-  caption:  item.caption ?? '',
+  caption:  item.caption  ?? '',
   link:     item.projectLink ?? '',
+  // "contain" shows full media without cropping (good for portrait)
+  // "cover"   fills the container (good for landscape gameplay footage)
+  fit:      item.fit ?? 'contain',
 }));
 
 const hasMedia = (item: typeof normalised[0]) =>
@@ -40,7 +39,6 @@ const hasMedia = (item: typeof normalised[0]) =>
 
 <div class="carousel-root" id={`carousel-${id}`} data-count={normalised.length}>
 
-  <!-- Track -->
   <div class="carousel-track-wrap" style={`aspect-ratio:${aspectRatio};`}>
     <div class="carousel-track">
       {normalised.map((item, i) => (
@@ -56,26 +54,24 @@ const hasMedia = (item: typeof normalised[0]) =>
             <video
               src={item.videoUrl}
               autoplay muted loop playsinline
-              style="width:100%;height:100%;object-fit:cover;"
+              style={`width:100%;height:100%;object-fit:${item.fit};background:#0d0d0f;`}
             />
           ) : item.src ? (
             <img
               src={item.src}
               alt={item.label}
-              style="width:100%;height:100%;object-fit:cover;"
+              style={`width:100%;height:100%;object-fit:${item.fit};background:#0d0d0f;`}
               loading="lazy"
             />
           ) : (
-            <!-- Placeholder -->
             <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#111113;">
               <div style="font-size:44px;">🎮</div>
               <p style="font-family:sans-serif;font-size:12px;color:rgba(255,255,255,0.3);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:0 20px;margin:0;">
-                {item.label || 'Upload via /admin'}
+                {item.label || 'Media coming soon'}
               </p>
             </div>
           )}
 
-          {/* Caption overlay */}
           {showCaptions && (item.caption || item.label) && (
             <div class="slide-caption">
               <span class="slide-caption-text">{item.caption || item.label}</span>
@@ -89,7 +85,6 @@ const hasMedia = (item: typeof normalised[0]) =>
     </div>
   </div>
 
-  {/* Controls — only show if more than 1 slide */}
   {normalised.length > 1 && (
     <>
       <button class="carousel-btn carousel-prev" aria-label="Previous">‹</button>
@@ -105,98 +100,31 @@ const hasMedia = (item: typeof normalised[0]) =>
 </div>
 
 <style>
-  .carousel-root {
-    position: relative;
-    overflow: hidden;
-    background: #0d0d0f;
-    user-select: none;
-  }
-  .carousel-track-wrap {
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-  .carousel-track {
-    display: flex;
-    height: 100%;
-    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-  }
-  .carousel-slide {
-    flex: 0 0 100%;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-  }
+  .carousel-root { position:relative;overflow:hidden;background:#0d0d0f;user-select:none; }
+  .carousel-track-wrap { width:100%;position:relative;overflow:hidden; }
+  .carousel-track { display:flex;height:100%;transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);will-change:transform; }
+  .carousel-slide { flex:0 0 100%;width:100%;height:100%;position:relative;overflow:hidden; }
   .slide-caption {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 12px 16px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.72));
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    position:absolute;bottom:0;left:0;right:0;padding:12px 16px;
+    background:linear-gradient(transparent,rgba(0,0,0,0.72));
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
   }
-  .slide-caption-text {
-    font-family: sans-serif;
-    font-size: 13px;
-    color: rgba(255,255,255,0.85);
-    font-weight: 500;
-  }
-  .slide-caption-link {
-    font-family: sans-serif;
-    font-size: 12px;
-    color: #60a5fa;
-    font-weight: 700;
-    white-space: nowrap;
-    text-decoration: none;
-  }
+  .slide-caption-text { font-family:sans-serif;font-size:13px;color:rgba(255,255,255,0.85);font-weight:500; }
+  .slide-caption-link { font-family:sans-serif;font-size:12px;color:#60a5fa;font-weight:700;white-space:nowrap;text-decoration:none; }
   .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.18);
-    color: #fff;
-    font-size: 20px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.18s;
-    backdrop-filter: blur(4px);
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);
+    color:#fff;font-size:20px;line-height:1;cursor:pointer;z-index:10;
+    display:flex;align-items:center;justify-content:center;
+    transition:background 0.18s;backdrop-filter:blur(4px);
   }
-  .carousel-btn:hover { background: rgba(255,255,255,0.25); }
-  .carousel-prev { left: 10px; }
-  .carousel-next { right: 10px; }
-  .carousel-dots {
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-    z-index: 10;
-  }
-  .carousel-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    border: none;
-    cursor: pointer;
-    transition: background 0.18s, transform 0.18s;
-    padding: 0;
-  }
-  .carousel-dot.active {
-    background: #fff;
-    transform: scale(1.2);
-  }
+  .carousel-btn:hover { background:rgba(255,255,255,0.25); }
+  .carousel-prev { left:10px; }
+  .carousel-next { right:10px; }
+  .carousel-dots { position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10; }
+  .carousel-dot { width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);border:none;cursor:pointer;transition:background 0.18s,transform 0.18s;padding:0; }
+  .carousel-dot.active { background:#fff;transform:scale(1.2); }
 </style>
 
 <script>
@@ -221,7 +149,6 @@ const hasMedia = (item: typeof normalised[0]) =>
     nextBtn?.addEventListener('click', () => go(current + 1));
     dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
 
-    // Touch/swipe
     let touchX = 0;
     root.addEventListener('touchstart', (e: TouchEvent) => { touchX = e.touches[0].clientX; });
     root.addEventListener('touchend',   (e: TouchEvent) => {
@@ -229,7 +156,6 @@ const hasMedia = (item: typeof normalised[0]) =>
       if (Math.abs(diff) > 40) go(diff > 0 ? current + 1 : current - 1);
     });
 
-    // Keyboard when focused
     root.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft')  go(current - 1);
       if (e.key === 'ArrowRight') go(current + 1);

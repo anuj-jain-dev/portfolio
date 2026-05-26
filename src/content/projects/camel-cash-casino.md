@@ -8,15 +8,15 @@ year: 2020–2023
 order: 3
 featured: true
 mediaItems:
-  - type: video
-    label: Slot with Bingo
-    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779712656/Kitty_h6ze4n.mp4
-  - label: Diner
+  - label: Diner Bonus
     type: video
     src: ""
     cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779709469/CCC_1_pehcsl.mp4
     youtubeId: ""
-  - label: Bonus Quest
+  - type: video
+    label: Slot with Bingo
+    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779712656/Kitty_h6ze4n.mp4
+  - label: Quest Bonus
     type: video
     src: ""
     cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779709470/CCC_2_uhtzub.mp4

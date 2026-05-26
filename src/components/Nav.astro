@@ -9,9 +9,9 @@
       <button class="nav-link-item" onclick="smoothGo('#reel')">Showcase</button>
       <button class="nav-link-item" onclick="smoothGo('#projects')">Projects</button>
       <button class="nav-link-item" onclick="smoothGo('#ai')">AI Work</button>
-      <button class="nav-link-item" onclick="smoothGo('#why-me')">Why Me</button>
+      <button class="nav-link-item" onclick="smoothGo('#why-me')">Why Hire Me</button>
       <button class="btn btn-primary" onclick="smoothGo('#contact')" style="padding:9px 18px;font-size:13px;">
-        Hire Me →
+        Contact →
       </button>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Open menu"
@@ -25,7 +25,15 @@
 
 <div class="mobile-menu" id="mobile-menu" style="display:none;">
   <button class="mobile-close" id="mobile-close">✕</button>
-  {[['About','#about'],['Skills','#skills'],['Showcase','#reel'],['Projects','#projects'],['AI Work','#ai'],['Why Me','#why-me'],['Contact','#contact']].map(([l,h]) => (
+  {[
+    ['About','#about'],
+    ['Skills','#skills'],
+    ['Showcase','#reel'],
+    ['Projects','#projects'],
+    ['AI Work','#ai'],
+    ['Why Hire Me','#why-me'],
+    ['Contact','#contact']
+  ].map(([l,h]) => (
     <button class="mobile-menu-link" data-href={h}>{l}</button>
   ))}
 </div>

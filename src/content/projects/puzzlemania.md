@@ -21,16 +21,20 @@ mediaItems:
 storeLink: https://play.google.com/store/apps/details?id=com.puzzlemaniastudio.puzzlemania
 storeLinkLabel: Google Play →
 githubLink: https://github.com/anuj-jain-13
-techChallenge: Architected the entire game solo for puzzle progression and a
-  custom level serialisation system that supports infinite future level packs
-  without code changes.
+techChallenge: >-
+  Solo-architected a multi-game casual puzzle app designed for extensibility —
+  new game plug in as independent modules with zero effect on existing ones.
+  Built a custom 2D world-space UI system for in-game elements.
+
+  Unity Dashboard integration for remote config, version control, Ads, IAP  and analytics. A custom level serialisation system that supports infinite future level packs without code deploys.
 businessOutcome: "Independently shipped and live on Google Play. Full
   monetisation pipeline: Unity LevelPlay Ads + Unity IAP. Own release pipeline
   from APK signing to Play Console staged rollouts."
-codeSignals: ECS separation throughout. ScriptableObject-driven level data —
-  zero hardcoded level logic. Event bus for complete UI decoupling. All
-  config-driven for live content updates post-launch. Object pooling for level
-  tiles.
+codeSignals: "ScriptableObject-driven level and game config — zero hardcoded
+  values. Independent game-addon modules: each puzzle type is self-contained
+  with its own entry point, assets, and logic, registered via a central
+  GameRegistry. 2D world-space canvas and Event bus for in-game UI decoupling.
+  Object pooling for all level tiles and effects. "
 tags:
   - Unity
   - C#

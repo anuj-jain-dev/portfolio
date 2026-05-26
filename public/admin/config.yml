@@ -3,7 +3,7 @@ backend:
   branch: main
 
 site_url: https://anuj-jain-dev.netlify.app
-local_backend: true
+local_backend: false
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
@@ -11,8 +11,8 @@ public_folder: "/images/uploads"
 media_library:
   name: cloudinary
   config:
-    cloud_name: YOUR_CLOUD_NAME
-    api_key: YOUR_API_KEY
+    cloud_name: "dcbzgebuv"
+    api_key: "898847298844218"
 
 collections:
 
@@ -32,6 +32,14 @@ collections:
           - { label: "Available Badge Text", name: "availableBadge", widget: "string" }
           - { label: "Primary CTA Label", name: "ctaPrimary", widget: "string" }
           - { label: "Secondary CTA Label", name: "ctaSecondary", widget: "string" }
+          - label: "Proof Point Pills"
+            name: "proofPoints"
+            widget: "list"
+            summary: "{{fields.icon}} {{fields.text}}"
+            hint: "Small credential pills shown below the CTAs. Add, edit, reorder freely."
+            fields:
+              - { label: "Emoji Icon", name: "icon", widget: "string", hint: "e.g. 🚀 🎮 🌍 🤖" }
+              - { label: "Text", name: "text", widget: "string", hint: "e.g. Live on Google Play" }
 
       - name: "ticker"
         label: "Skills Ticker (scrolling bar)"

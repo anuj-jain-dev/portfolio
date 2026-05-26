@@ -8,11 +8,12 @@ year: 2024–Present
 order: 2
 featured: false
 mediaItems:
-  - label: Framework Demo
-    type: image
-    src: ""
-    cloudinaryUrl: ""
-    youtubeId: ""
+  - type: video
+    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779785482/Penguin_ijjtkm.mp4
+    label: Collect&Rock
+  - type: video
+    label: HoldForGold
+    cloudinaryUrl: https://res.cloudinary.com/dcbzgebuv/video/upload/q_auto/f_auto/v1779790694/medusa_len3tp.mp4
 storeLink: ""
 storeLinkLabel: ""
 githubLink: ""
