@@ -20,7 +20,7 @@ mediaItems:
     youtubeId: ""
 storeLink: https://play.google.com/store/apps/details?id=com.puzzlemaniastudio.puzzlemania
 storeLinkLabel: Google Play →
-githubLink: https://github.com/anuj-jain-13
+githubLink: https://github.com/anuj-jain-dev
 techChallenge: >-
   Solo-architected a multi-game casual puzzle app designed for extensibility —
   new game plug in as independent modules with zero effect on existing ones.

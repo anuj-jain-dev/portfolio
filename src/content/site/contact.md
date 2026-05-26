@@ -5,7 +5,7 @@ body: "Studio hiring for a senior Unity role? Need a reliable remote contractor?
 email: "anuj132000@gmail.com"
 linkedinUrl: "https://www.linkedin.com/in/anuj-jain-gamesdev"
 linkedinLabel: "LinkedIn"
-githubUrl: "https://github.com/anuj-jain-13"
+githubUrl: "https://github.com/anuj-jain-dev"
 githubLabel: "GitHub"
 locationNote: "India · Remote-first · Available globally"
 ---
